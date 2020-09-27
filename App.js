@@ -5,7 +5,7 @@ export default function App() {
   return (
     <View style={styles.container}>
         <View style={styles.firstContainer}>
-          {/* Agar header daalna ho toh yaha daalo */}
+          {/* MMG Agar header daalna ho toh yaha daalo */}
         <View style={styles.imgContainer}>
           <View style={{width:"40%",height:'70%'}}>
           <Image source={require('./assets/doctor1.png')} style={styles.img1}/>
