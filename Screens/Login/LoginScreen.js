@@ -2,18 +2,29 @@ import React from 'react';
 import { StyleSheet, Text, View,Image, TextInput, ScrollView, Button,TouchableOpacity} from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
 export default function LoginScreen() {
+  const [select,setSelect] = React.useState('');
+
   return (
     <View style={styles.container}>
         <View style={styles.firstContainer}>
           {/* MMG Agar header daalna ho toh yaha daalo */}
           {/* PJ: koi header nahi aayega idhar */}
+        
         <View style={styles.imgContainer}>
+          <TouchableOpacity onPress={()=>{setSelect('Doctor')}}>
           <View style={{width:"40%",height:'70%'}}>
-          <Image source={require('../../assets/doctor1.png')} style={styles.img1}/>
+            <View style={select=="Doctor" ? styles.border : null}>
+              <Image source={require('../../assets/doctor1.png')} style={styles.img1}/>
+            </View>
           </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>{setSelect('Patient')}}>
           <View style={{width:"40%",height:'70%'}}>
-          <Image source={require('../../assets/patient1.jpg')} style={styles.img2}/>
+            <View style={select=="Patient" ? styles.border : null}>
+              <Image source={require('../../assets/patient1.jpg')} style={styles.img2}/>
+            </View>
           </View>
+          </TouchableOpacity>
         </View>
         </View>
         
@@ -76,14 +87,14 @@ const styles = StyleSheet.create({
 
     },
     img1:{
-      height:'100%',
-      width:'100%',
+      height:150,
+      width:150,
       borderRadius:500,
       resizeMode:'contain'
     },
     img2:{
-      height:'100%',
-      width:'100%',
+      height:150,
+      width:150,
       borderRadius:500,
       resizeMode:'contain'
     },
@@ -110,4 +121,17 @@ const styles = StyleSheet.create({
       width:"90%",
       height:45,
     },
-});
+    border:{
+      alignContent:"center",
+      alignItems:"center",
+      justifyContent:"center",
+      marginHorizontal:0,
+      borderWidth:4,
+      borderRadius:500,
+      borderColor:"#44344F",
+      width:158,
+      height:155,
+      
+    }
+
+  });
