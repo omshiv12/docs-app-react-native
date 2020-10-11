@@ -8,16 +8,33 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "~38.0.8",
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/native": "^5.7.4",
+    "@react-navigation/stack": "^5.9.1",
+    "expo": "^39.0.3",
     "expo-status-bar": "^1.0.2",
-    "react": "~16.11.0",
-    "react-dom": "~16.11.0",
+    "node-modules": "^1.0.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
-    "react-native-web": "~0.11.7"
+    "react-native-elements": "^2.3.2",
+    "react-native-gesture-handler": "~1.6.0",
+    "react-native-paper": "^4.2.0",
+    "react-native-screens": "^2.11.0",
+    "react-native-vector-icons": "^7.1.0",
+    "react-native-web": "^0.13.14",
+    "react-navigation": "^4.4.2",
+    "react-navigation-stack": "^2.8.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
-    "babel-preset-expo": "~8.1.0"
+    "babel-preset-expo": "^8.1.0"
   },
-  "private": true
+  "private": true,
+  "name": "amazingApp",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
