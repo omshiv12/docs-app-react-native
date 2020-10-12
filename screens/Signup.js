@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {widthPercentageToDP as wp,heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import {
   Text,
   View,
@@ -52,11 +53,11 @@ export default class Signup extends React.Component {
 const styles = StyleSheet.create({
   cantainer: {
     backgroundColor: '#521be3',
-    height: 700,
+    height: hp('100%'),
   },
   subView: {
     backgroundColor: 'white',
-    height: 430,
+    height: hp('110%'),
     marginTop: 240,
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
@@ -77,15 +78,15 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   nameInput: {
-    height: 40,
-    width: 270,
+    height: hp('5%'),
+    width: wp('70%'),
     marginLeft: 40,
     borderBottomWidth: 1,
     marginTop: 30,
   },
   btn: {
-    height: 50,
-    width: 200,
+    height: hp('10%'),
+    width: wp('35%'),
     backgroundColor: 'blue',
     borderRadius: 80,
     borderWidth: 2,
