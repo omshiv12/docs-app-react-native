@@ -22,27 +22,29 @@ export default class Signup extends React.Component {
   render() {
     return (
       <View style={styles.cantainer}>
-      <ScrollView>
+      
         <Text style={styles.headerTxt}>WELCOME</Text>
-        <View style={styles.subView}>
+        <ScrollView style={styles.subView}>
           <Text style={styles.subTxt}>Signup</Text>
-          <TextInput style={styles.nameInput} placeholder="Username"  />
-          <TextInput style={styles.nameInput} placeholder="Name"  />
-          <TextInput style={styles.nameInput} placeholder="Age"  />
+          
+          <TextInput style={styles.nameInput} placeholder="Name" onChangeText={(name => { this.setState({ name }) })} />
+          <TextInput style={styles.nameInput} placeholder="Age" onChangeText={(age => { this.setState({ age }) })} />
           
           <TextInput style={styles.nameInput} placeholder="Email"  onChangeText={(email => { this.setState({ email }) })} />
+          <TextInput style={styles.nameInput} placeholder="Username" onChangeText={(username => { this.setState({ username }) })} />
           <TextInput style={styles.nameInput} placeholder="Password"  onChangeText={(pass => { this.setState({ pass }) })} />
           <TextInput style={styles.nameInput} placeholder="Confirm Password" onChangeText={(pass => { this.setState({ pass }) })} />
           <TextInput style={styles.nameInput} placeholder="Address"  />
           <TextInput style={styles.nameInput} placeholder="Phone"  />
-          <TouchableOpacity style={styles.btn} onPress={this.signUp}>
-            <Text style={styles.btnTxt}>SignUp</Text>
+          <TouchableOpacity>
+            <View style={styles.btn}>
+              <Text style={{alignSelf:'center',fontSize:20,color:"#555",marginTop:8,fontWeight:'bold'}}>Sign Up</Text>
+            </View>
           </TouchableOpacity>
           <View style={styles.endView}>
             <Text style={styles.endTxt}>Already have an account?</Text>
             
           </View>
-        </View>
         </ScrollView>
       </View>
       
@@ -52,13 +54,13 @@ export default class Signup extends React.Component {
 
 const styles = StyleSheet.create({
   cantainer: {
-    backgroundColor: '#521be3',
+    backgroundColor: '#59f',
     height: hp('100%'),
   },
   subView: {
     backgroundColor: 'white',
-    height: hp('110%'),
-    marginTop: 240,
+    marginTop:hp('20%'),
+    marginBottom:hp('5%'),
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
   },
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
     position: 'absolute',
-    marginTop: 140,
+    marginTop: hp('10%'),
   },
   subTxt: {
     color: 'black',
@@ -78,22 +80,20 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   nameInput: {
-    height: hp('5%'),
-    width: wp('70%'),
-    marginLeft: 40,
-    borderBottomWidth: 1,
-    marginTop: 30,
+        flexDirection:'row',
+        borderWidth:0.5,
+        padding:10,
+        borderRadius:20,
+        marginHorizontal:"3%",
+        marginTop:"8%"
   },
   btn: {
-    height: hp('10%'),
-    width: wp('35%'),
-    backgroundColor: 'blue',
-    borderRadius: 80,
-    borderWidth: 2,
-    marginLeft: 70,
-    marginTop: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginTop:"10%",
+      backgroundColor:"#58f",
+      marginHorizontal:"4%",
+      borderRadius:50,
+      width:"90%",
+      height:45,
   },
   btnTxt: {
     color: 'white',
