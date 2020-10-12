@@ -1,8 +1,14 @@
-import React from 'react'
-import { StyleSheet, Text, View,Image } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import React from 'react';
+import { StyleSheet, Text, View,Image } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { Fontisto } from '@expo/vector-icons'; 
+import { Octicons } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons'; 
+import { MaterialIcons } from '@expo/vector-icons'; 
+
 export default function FirstPage(props) {
     return (
+        <ScrollView>
         <View>
             <TouchableOpacity onPress={()=>props.navigation.navigate("Consultation")}>
             <View style={styles.card}>
@@ -14,7 +20,7 @@ export default function FirstPage(props) {
             <Text style={{fontSize:14,color:"#85ff88",marginLeft:10}}>On Your First Consultation.</Text>
             <Text 
             style={{fontSize:15,
-            color:"#35309f",
+            color:"#224D80",
             marginTop:10,
             marginLeft:10,
             backgroundColor:'#ffffff',
@@ -30,17 +36,56 @@ export default function FirstPage(props) {
             </View>
             </View>
             </TouchableOpacity>
+            
+            <View style={{flexDirection:'row',flex:1}}>
+                <View style={styles.optCard1}>
+                <TouchableOpacity onPress={()=>props.navigation.navigate("appointments")}>
+                    <View style={{alignItems:'center'}}>
+                    <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>My Appointments!</Text>
+                    <FontAwesome5 name="clipboard-list" size={60} color="#ffffff"  />
+                    </View>
+                </TouchableOpacity>
+                </View>
+                <View style={styles.optCard2}> 
+                    <TouchableOpacity onPress={()=>props.navigation.navigate("favDoctors")}>
+                        <View style={{alignItems:'center'}}>
+                            <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>Book Your Appointment</Text>
+                            <MaterialIcons name="laptop-chromebook" size={60} color="#ffffff"  />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+               
+            <View style={{flexDirection:'row',flex:1}}>
+                <View style={styles.optCard1}>
+                    <TouchableOpacity onPress={()=>props.navigation.navigate("records")}>
+                        <View style={{alignItems:'center'}}>
+                        <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>My Medical Records</Text>
+                        <Octicons name="file-directory" size={60} color="#ffffff"  />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.optCard2}>
+                    <TouchableOpacity onPress={()=>props.navigation.navigate("Consultation")}>
+                    <View style={{alignItems:'center'}}>
+                        <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>My Favorite Doctors!</Text>
+                        <Fontisto name="doctor" size={60} color="#ffffff" />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     card:{
-        backgroundColor:"#35309f",
+        backgroundColor:"#224D80",
         height:200,
-        width:"90%",
-        marginHorizontal:20,
-        borderRadius:20,
+        width:"95%",
+        marginHorizontal:10,
+        borderRadius:10,
         marginVertical:20,
         flexDirection: 'row',
     },
@@ -53,5 +98,20 @@ const styles = StyleSheet.create({
         height:"100%",
         width:"100%",
         resizeMode:'contain',
-    }
+    },
+    optCard1:{
+        height:150,
+        borderRadius:60,
+        marginHorizontal:5,
+        backgroundColor:"#224D80",
+        flex:2,
+        },
+    optCard2:{
+        height:150,
+        borderRadius:60,
+        marginHorizontal:5,
+        marginBottom:10,
+        backgroundColor:"#224D80",
+        flex:2,
+        }
 });

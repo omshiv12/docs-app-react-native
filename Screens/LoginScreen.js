@@ -1,27 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, View,Image, TextInput, ScrollView, Button,TouchableOpacity} from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
-export default function LoginScreen() {
+export default function LoginScreen(props) {
   const [select,setSelect] = React.useState('');
 
   return (
     <View style={styles.container}>
         <View style={styles.firstContainer}>
-          {/* MMG Agar header daalna ho toh yaha daalo */}
-          {/* PJ: koi header nahi aayega idhar */}
         
         <View style={styles.imgContainer}>
           <TouchableOpacity onPress={()=>{setSelect('Doctor')}}>
           <View style={{width:"40%",height:'70%'}}>
             <View style={select=="Doctor" ? styles.border : null}>
-              <Image source={require('../../assets/doctor1.png')} style={styles.img1}/>
+              <Image source={require('../assets/doctor1.png')} style={styles.img1}/>
             </View>
           </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>{setSelect('Patient')}}>
           <View style={{width:"40%",height:'70%'}}>
             <View style={select=="Patient" ? styles.border : null}>
-              <Image source={require('../../assets/patient1.jpg')} style={styles.img2}/>
+              <Image source={require('../assets/patient1.jpg')} style={styles.img2}/>
             </View>
           </View>
           </TouchableOpacity>
@@ -46,9 +44,9 @@ export default function LoginScreen() {
           <View style={{justifyContent:'flex-end',flexDirection:'row',marginRight:"5%",marginTop:'3%'}}>
           <TouchableOpacity onPress={()=>{alert("Forgot Password Pressed")}}><Text style={{color:"blue"}}>Forgot Password?</Text></TouchableOpacity>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> props.navigation.navigate("FirstPage")}>
             <View style={styles.button}>
-              <Text style={{alignSelf:'center',fontSize:20,color:"#555",marginTop:8,fontWeight:'bold'}}>Log In</Text>
+              <Text style={{alignSelf:'center',fontSize:20,color:"#dddddd",marginTop:8,fontWeight:'bold'}}>Log In</Text>
             </View>
           </TouchableOpacity>
           <View style={{marginTop:"10%",alignSelf:'center'}}>
@@ -70,12 +68,12 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      backgroundColor:'#59f',
+      backgroundColor:'#35309f',
       paddingTop:"5%"
     },
     firstContainer:{
       flex:2,
-      backgroundColor:'#59f',
+      backgroundColor:'#35309f',
       marginTop:"10%",
     },
     secondContainer:{
@@ -115,7 +113,7 @@ const styles = StyleSheet.create({
     },
     button:{
       marginTop:"10%",
-      backgroundColor:"#58f",
+      backgroundColor:"#35309f",
       marginHorizontal:"4%",
       borderRadius:50,
       width:"90%",
@@ -128,7 +126,7 @@ const styles = StyleSheet.create({
       marginHorizontal:0,
       borderWidth:4,
       borderRadius:500,
-      borderColor:"#44344F",
+      borderColor:"#ff95aa",
       width:158,
       height:155,
       
