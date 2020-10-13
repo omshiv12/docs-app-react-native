@@ -44,7 +44,7 @@ export default function LoginScreen(props) {
           <View style={{justifyContent:'flex-end',flexDirection:'row',marginRight:"5%",marginTop:'3%'}}>
           <TouchableOpacity onPress={()=>{alert("Forgot Password Pressed")}}><Text style={{color:"blue"}}>Forgot Password?</Text></TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={()=> props.navigation.navigate("FirstPage")}>
+          <TouchableOpacity onPress={()=> props.navigation.navigate("DrawerNavigation")}>
             <View style={styles.button}>
               <Text style={{alignSelf:'center',fontSize:20,color:"#dddddd",marginTop:8,fontWeight:'bold'}}>Log In</Text>
             </View>
@@ -68,12 +68,12 @@ export default function LoginScreen(props) {
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      backgroundColor:'#35309f',
+      backgroundColor:'#224D80',
       paddingTop:"5%"
     },
     firstContainer:{
       flex:2,
-      backgroundColor:'#35309f',
+      backgroundColor:'#224D80',
       marginTop:"10%",
     },
     secondContainer:{
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     },
     button:{
       marginTop:"10%",
-      backgroundColor:"#35309f",
+      backgroundColor:"#224D80",
       marginHorizontal:"4%",
       borderRadius:50,
       width:"90%",
@@ -124,9 +124,9 @@ const styles = StyleSheet.create({
       alignItems:"center",
       justifyContent:"center",
       marginHorizontal:0,
-      borderWidth:4,
+      borderWidth:10,
       borderRadius:500,
-      borderColor:"#ff95aa",
+      borderColor:"#000588",
       width:158,
       height:155,
       
