@@ -1,60 +1,78 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { TextInput,Appbar,Button } from 'react-native-paper';
-import Display from './components/Display';
+import {widthPercentageToDP as wp,heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { StyleSheet, Text, View,AppRegistry,Dimensions,FlatList } from 'react-native';
+import { TextInput } from 'react-native-paper';
+const dataList=[{key:'Gynaecology'},{key:'Coronavirus related'},{key:'Dermatology'},{key:'Sexalogy'},{key:'Psychiatry'},{key:'Stomach and Digestion'},{key:'Pediatrics'},{key:'Kidney and urine'},{key:'Orthopedic'},{key:'Neurology'}
+                                    ,{key:'Cardiology'},{key:'counselling'},{key:' General  Surgery'},{key:'Physiotherpy'},{key:'Breathing and Chest'},{key:'Dental'},{key:'Eye and Vision'},{key:'Diabetes '},{key:'Diet and Nutrition'},{key:'Some Other Problem'}]
+                    
+const numColumns=2
 
-class App extends React.Component {
+export default class list extends React.Component{
 
-   state={
 
-	fname:'',
-	sname:'',
-	result:"loading"
-   }    
-	     submitit(){
-		fetch('https://love-calculator.p.rapidapi.com/getPercentage?fname=${this.state.fname}&sname=${this.state.sname}',{
-		headers:{
-		"x-rapidapi-host": "love-calculator.p.rapidapi.com",
-		 "x-rapidapi-key": "f9c452f7aamsh83a8ead0e1c7dfdp1fc6cfjsnf09b43e95e6d"
-		
-}
-})		.then(data=>data.json())
-		.then(data2=>{
-			console.log(data2);
-			this.setState({
-			result:data2
-})
-	})
-}
-
-    render() {
-        return (
-
+    renderItems=({item,index}) => {
+        
+        return(
+            <View style={styles.itemStyle}>
+            <Text style={styles.itemText}>{item.key}</Text>
             
-            <View style = { styles.container } >
-	   <Appbar.Header>
-	   <Appbar.Content title="Love % Calculator"  style={{alignItems:"center"}}/>
- 	   </Appbar.Header>
-            
-            <TextInput label = 'person1(male)' value={this.state.fname} onChangeText = { text => this.setState({fname: text }) } />
-	    <TextInput label = 'person2(female)' value={this.state.sname} onChangeText = { text => this.setState({ sname:text }) } />
-            <Button  mode="contained"  style={{marginTop:10}} onPress={this.submitit.bind(this)}>
-		Calculate
-	   </Button>
-
-            
-           <Display  data={this.state.result}/>  
-             
-            </View >
+            </View>
+        )
+    }
+    render(){
+        return(
+            <View style={styles.container}>
+            <Text style={styles.tim}>Search Health Problem/ Symptoms</Text>
+            <TextInput style={styles.nameInput} placeholder="Eg.  Cold, cough, Fever " onChangeText={(name => { this.setState({ name }) })} />
+            <Text style={styles.tim}>Know Speciality?</Text>
+            <Text>Select from top specialities</Text>
+            <FlatList 
+            data={dataList}
+            renderItem={this.renderItems}
+            keyExtractor={(key,index)=>index.toString()}
+            numColumns={numColumns}/>
+            </View>
         );
     }
 }
-export default App;
-
 const styles = StyleSheet.create({
-    container: {
+    container :{
         flex: 1,
-        backgroundColor: '#fff',
+        paddingTop:40,
         
     },
+itemStyle:{
+    backgroundColor:'#33D6',
+     // backgroundColor:'white',
+    alignItems:'center',
+    justifyContent:'center',
+    height:hp('10%'),
+    margin:1,
+    flex:1,
+    fontSize:2,
+    borderRadius:5,
+    //height:WIDTH/numColumns
+},
+itemText:{
+    fontSize:5,
+    color:'#fff',
+    fontSize:15,
+    
+},
+nameInput: {
+   // flexDirection:'row',
+    borderWidth:0.5,
+    padding:1,
+    borderRadius:5,
+    marginHorizontal:"2%",
+    marginTop:"4%",
+},
+tim:{
+    fontSize:18,
+},
+kim:{
+    fontSize:4,
+    borderRadius:4,
+}
+
 })
