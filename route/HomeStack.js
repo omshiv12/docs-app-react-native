@@ -17,7 +17,7 @@ export default function HomeStack(props) {
       }
     return (
        <homeStack.Navigator>
-                <homeStack.Screen name="firstPage" component={FirstPage} options={{headerLeft:headerIcon}}/>
+                <homeStack.Screen name="firstPage" component={FirstPage} options={{headerLeft:headerIcon,title:"Home"}}/>
                 <homeStack.Screen name="Consultation" component={Consultation} options={{headerLeft:headerIcon}}/>
                 <homeStack.Screen name="appointments" component={Appointment} options={{headerLeft:headerIcon}}/>
                 <homeStack.Screen name="favDoctors" component={FavDoctors} options={{headerLeft:headerIcon}}/>

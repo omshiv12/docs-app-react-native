@@ -3,7 +3,16 @@ import { StyleSheet, Text, View,Image, TextInput, ScrollView, Button,TouchableOp
 import { AntDesign } from '@expo/vector-icons'; 
 export default function LoginScreen(props) {
   const [select,setSelect] = React.useState('');
-
+  const LoginSelection=()=>{
+    if(select=='Doctor')
+    {
+        props.navigation.navigate("DrawerNavigationDoctor");
+    }
+    else if(select=='Patient')
+    {
+         props.navigation.navigate("DrawerNavigation");   
+    }
+  }
   return (
     <View style={styles.container}>
         <View style={styles.firstContainer}>
@@ -12,14 +21,14 @@ export default function LoginScreen(props) {
           <TouchableOpacity onPress={()=>{setSelect('Doctor')}}>
           <View style={{width:"40%",height:'70%'}}>
             <View style={select=="Doctor" ? styles.border : null}>
-              <Image source={require('../assets/doctor1.png')} style={styles.img1}/>
+              <Image source={require('./assets/doctor1.png')} style={styles.img1}/>
             </View>
           </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>{setSelect('Patient')}}>
           <View style={{width:"40%",height:'70%'}}>
             <View style={select=="Patient" ? styles.border : null}>
-              <Image source={require('../assets/patient1.jpg')} style={styles.img2}/>
+              <Image source={require('./assets/patient1.jpg')} style={styles.img2}/>
             </View>
           </View>
           </TouchableOpacity>
@@ -44,7 +53,7 @@ export default function LoginScreen(props) {
           <View style={{justifyContent:'flex-end',flexDirection:'row',marginRight:"5%",marginTop:'3%'}}>
           <TouchableOpacity onPress={()=>{alert("Forgot Password Pressed")}}><Text style={{color:"blue"}}>Forgot Password?</Text></TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={()=> props.navigation.navigate("DrawerNavigation")}>
+          <TouchableOpacity onPress={LoginSelection}>
             <View style={styles.button}>
               <Text style={{alignSelf:'center',fontSize:20,color:"#dddddd",marginTop:8,fontWeight:'bold'}}>Log In</Text>
             </View>

@@ -47,7 +47,7 @@ export default function FirstPage(props) {
                 </TouchableOpacity>
                 </View>
                 <View style={styles.optCard2}> 
-                    <TouchableOpacity onPress={()=>props.navigation.navigate("favDoctors")}>
+                    <TouchableOpacity onPress={()=>props.navigation.navigate("Consultation")}>
                         <View style={{alignItems:'center'}}>
                             <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>Book Your Appointment</Text>
                             <MaterialIcons name="laptop-chromebook" size={60} color="#ffffff"  />
@@ -66,7 +66,7 @@ export default function FirstPage(props) {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.optCard2}>
-                    <TouchableOpacity onPress={()=>props.navigation.navigate("Consultation")}>
+                    <TouchableOpacity onPress={()=>props.navigation.navigate("favDoctors")}>
                     <View style={{alignItems:'center'}}>
                         <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>My Favorite Doctors!</Text>
                         <Fontisto name="doctor" size={60} color="#ffffff" />
