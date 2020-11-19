@@ -4,37 +4,33 @@ import moment from 'moment';
 import { Octicons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function FirstPageDoc() {
-    const [currentDate, setCurrentDate] = useState('')
-    useEffect(() => {
-        var date = moment()
-                      .utcOffset('+05:30')
-                      .format('DD-MM-YYYY');
-        setCurrentDate(date);
-    });
+export default function FirstPageDoc(props) {
     return (
         <View style={{flex:1,backgroundColor:"#ffffff"}}>
             <View style={styles.imgContainer}>
                 <Image source={require('../assets/doctorFirst.jpeg')} style={styles.imgDesign}/>
             </View>
-            <View style={styles.dateContainer}>
-                <Text style={styles.dateText}> Date:{currentDate}</Text>
-                <Text style={styles.dateText2}>Today's Appointments:0</Text>
-            </View>
             <View style={{flexDirection:'row'}}>
                 <View style={styles.cards}>
+                    <TouchableOpacity style={{alignItems:'center'}} onPress={()=>props.navigation.navigate('appointments')}>
                     <Text style={{fontSize:20,color:"#ffffff"}}>Appointments</Text>
                     <Foundation name="clipboard-notes" size={60} color="#ffffff" />
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.cards}>
+                <View style={styles.cards} >
+                    <TouchableOpacity style={{alignItems:'center'}} onPress={()=>props.navigation.navigate('Patients')}>
                     <Text style={{fontSize:20,color:"#ffffff"}}>Patients</Text>
                     <Ionicons name="ios-people" size={60} color="#ffffff" />
+                    </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.card2}>
+                <TouchableOpacity style={{alignItems:'center'}} onPress={()=>props.navigation.navigate('Reports')}>
                 <Text style={{fontSize:20,color:"#ffffff"}}>Reports</Text>
                 <Octicons name="file-directory" size={60} color="#ffffff"  />
+                </TouchableOpacity>
             </View>
         </View>
     )
