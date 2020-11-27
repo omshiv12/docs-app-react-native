@@ -81,7 +81,7 @@ export default function App({navigation}){
             let where = "Store_Id ='"+doctor['_id']+"'";
             where = Base64.encode(where);
             token = Base64.encode(JSON.stringify(token))
-            fetch('https://192.168.43.250:5000/update/doctors/'+token+'/'+where,{signal:abortController.signal})
+            fetch('https://192.168.43.121:5000/update/doctors/'+token+'/'+where,{signal:abortController.signal})
             .then(response => response.json())
             .then((responseJson) => {
                 if(responseJson.type==="Success")
@@ -96,7 +96,7 @@ export default function App({navigation}){
             let where = "Patient_Id ='"+patient['_id']+"'";
             where = Base64.encode(where);
             token = Base64.encode(JSON.stringify(token))
-            fetch('http://192.168.43.250:5000/update/patients/'+token+'/'+where,{signal:abortController.signal})
+            fetch('http://192.168.43.121:5000/update/patients/'+token+'/'+where,{signal:abortController.signal})
             .then(response => response.json())
             .then((responseJson) => {
                 if(responseJson.type==="Success")
