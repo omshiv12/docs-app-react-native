@@ -21,11 +21,16 @@ import LoginScreen from './Screens/Login/LoginScreen';
 import SignUpDoctor from './Screens/Login/SignUpDoctor';
 import SignUpPatient from './Screens/Login/SignUpPatient';
 
-// Doctor Screens
-import DummyDoctor from './Screens/Doctor/DummyDoctor';
-
 // Patient Screens
 import DummyPatient from './Screens/Patient/DummyPatient';
+// Doctor Screens
+import DrawerNavigationDoctor from './Screens/Doctor/DrawerNavDoc';
+import FirstPageDoc from './Screens/Doctor/firstPageDoc';
+import Appointments from './Screens/Doctor/Appointments';
+import Reports from './Screens/Doctor/reports';
+import Patients from './Screens/Doctor/patients';
+import PatientViewTab from './Screens/Doctor/PatientViewTab';
+import { Entypo } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 const abortController = new AbortController;
@@ -63,7 +68,7 @@ async function registerForPushNotificationsAsync() {
 }
 
 
-export default function App({navigation}){
+export default function App(props){
     
     const [expoToken,setExpoToken] = React.useState('');
     const [notification,setNotification] = React.useState(false);
@@ -199,12 +204,12 @@ export default function App({navigation}){
                 console.log(data);
                 if(data.action="customer-orders")
                 {
-                navigation.navigate('Root',{screen: 'orderDetails',params: {type:"get",order:data.orderId}});
+                props.navigation.navigate('Root',{screen: 'orderDetails',params: {type:"get",order:data.orderId}});
                 // navigation.navigate('orderDetails',{order:data.orderId})
                 }
                 else if(data.action="admin-orders")
                 {
-                navigation.navigate('Root',{screen: 'orderDetails',params: {type:"get",order:data.orderId}});
+                props.navigation.navigate('Root',{screen: 'orderDetails',params: {type:"get",order:data.orderId}});
                 // navigation.navigate('orderDetails',{order:data.orderId})
                 }
                 else if(data.action="change-shop")
@@ -227,7 +232,7 @@ export default function App({navigation}){
 
                     }).done();
                     this.props.emptyCart();
-                    navigation.navigate('Root',{screen: 'Home',params: {reload:true}});
+                    props.navigation.navigate('Root',{screen: 'Home',params: {reload:true}});
                     // navigation.navigate('orderDetails',{order:data.orderId})
                 }
             });
@@ -285,6 +290,11 @@ export default function App({navigation}){
 
     },[]
     );
+    const headerIcon=()=>{
+        return(
+          <Entypo name="menu" size={30} color="black" style={{marginLeft:20}} onPress={()=>props.navigation.openDrawer()}/>
+        );
+      };
     return(
         <NavigationContainer>
             <AuthContext.Provider value={authContext}>
@@ -304,7 +314,12 @@ export default function App({navigation}){
                         {loginState.loginType == "doctor" ? (
                             // Doctor Screens
                             <>
-                                <Stack.Screen name="dummyDoctor" component={DummyDoctor}/>
+                                <Stack.Screen name="Doctor" component={DrawerNavigationDoctor}/>
+                                <Stack.Screen name="firstPageDoc" component={FirstPageDoc} options={{headerLeft:headerIcon,title:"Home"}}/>
+                                <Stack.Screen name="appointments" component={Appointments} options={{headerLeft:headerIcon,title:"Appointments"}}/>
+                                <Stack.Screen name="Reports" component={Reports} options={{headerLeft:headerIcon,title:"Reports"}}/>
+                                <Stack.Screen name="Patients" component={Patients} options={{headerLeft:headerIcon,title:"Patients"}}/>
+                                <Stack.Screen name="PatientViewTab" component={PatientViewTab} options={{headerLeft:headerIcon,title:'PatientView'}}/>
                             </>
                         ) : (
                             // Patients Screens
