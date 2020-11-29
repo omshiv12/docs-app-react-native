@@ -9,8 +9,10 @@ export default function PatientViewTab(props) {
     let inf=props.route.params;
     return (
         <Tab.Navigator>
+            
             <Tab.Screen name="PatientView" component={PatientView}  initialParams={inf} />
             <Tab.Screen name="Report" component={PrevReports} />
+            
         </Tab.Navigator>
     )
 }

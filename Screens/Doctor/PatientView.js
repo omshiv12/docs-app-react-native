@@ -37,7 +37,7 @@ export default function PatientView(props) {
                 </View>
                 <View style={{marginTop:"5%",paddingLeft:"15%",flex:2,flexWrap:'wrap'}}>
                 {infoFetched.gender=="Male"?<Image source={require('../../assets/boyAvatar.jpeg')} style={{height:"50%",width:"50%",borderRadius:50,resizeMode:'contain'}}/>:
-                        <Image source={require('../../assets/girlAvatar.jpg')} style={{height:"100%",width:"100",borderRadius:50}}/>}
+                        <Image source={require('../../assets/girlAvatar.jpg')} style={{height:"100%",width:"100%",borderRadius:50}}/>}
                 </View>
             </View>
             </Card>

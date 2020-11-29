@@ -36,7 +36,7 @@ export default function Appointments(props) {
 
         />
         </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

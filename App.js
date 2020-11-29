@@ -25,12 +25,6 @@ import SignUpPatient from './Screens/Login/SignUpPatient';
 import DummyPatient from './Screens/Patient/DummyPatient';
 // Doctor Screens
 import DrawerNavigationDoctor from './Screens/Doctor/DrawerNavDoc';
-import FirstPageDoc from './Screens/Doctor/firstPageDoc';
-import Appointments from './Screens/Doctor/Appointments';
-import Reports from './Screens/Doctor/reports';
-import Patients from './Screens/Doctor/patients';
-import PatientViewTab from './Screens/Doctor/PatientViewTab';
-import { Entypo } from '@expo/vector-icons';
 
 const Stack = createStackNavigator();
 const abortController = new AbortController;
@@ -290,11 +284,6 @@ export default function App(props){
 
     },[]
     );
-    const headerIcon=()=>{
-        return(
-          <Entypo name="menu" size={30} color="black" style={{marginLeft:20}} onPress={()=>props.navigation.openDrawer()}/>
-        );
-      };
     return(
         <NavigationContainer>
             <AuthContext.Provider value={authContext}>
@@ -314,12 +303,7 @@ export default function App(props){
                         {loginState.loginType == "doctor" ? (
                             // Doctor Screens
                             <>
-                                <Stack.Screen name="Doctor" component={DrawerNavigationDoctor}/>
-                                <Stack.Screen name="firstPageDoc" component={FirstPageDoc} options={{headerLeft:headerIcon,title:"Home"}}/>
-                                <Stack.Screen name="appointments" component={Appointments} options={{headerLeft:headerIcon,title:"Appointments"}}/>
-                                <Stack.Screen name="Reports" component={Reports} options={{headerLeft:headerIcon,title:"Reports"}}/>
-                                <Stack.Screen name="Patients" component={Patients} options={{headerLeft:headerIcon,title:"Patients"}}/>
-                                <Stack.Screen name="PatientViewTab" component={PatientViewTab} options={{headerLeft:headerIcon,title:'PatientView'}}/>
+                                <Stack.Screen name="DrawerNavigationDoctor" component={DrawerNavigationDoctor} options={{headerShown:false}}/>
                             </>
                         ) : (
                             // Patients Screens
