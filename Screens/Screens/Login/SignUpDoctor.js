@@ -7,11 +7,9 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  KeyboardAvoidingView,
 } from 'react-native';
 import {Base64} from '../../Base64';
 import { AuthContext } from '../../auth/AuthContext';
-import { colors } from '../../extra/colors';
 
 
 
@@ -48,21 +46,20 @@ export default class SignUpDoctor extends React.Component {
       Name: this.state.name,
       Age:this.state.age,
       Mobile:this.state.mobile,
+      Email:this.state.email,
       Password:pass,
       Address:this.state.address,
       // Department:this.state.department,
       // Working_Experience:this.state.workingExp,
     }
     let signUp = Base64.encode(JSON.stringify(sign));
-    console.log('http://192.168.1.11:5000/insert/doctors/'+signUp);
-    fetch('http://192.168.1.11:5000/insert/doctors/'+signUp,{signal:this.abortController.signal})
+    console.log('http://192.168.43.250:5000/insert/doctors/'+signUp);
+    fetch('http://192.168.43.121:5000/insert/doctors/'+signUp,{signal:this.abortController.signal})
     .then(result => result.json())
     .then((resultJson) => {
       if(resultJson.status=="Success"){
         alert("Sign Up Successful");
         this.setState({loader:false});
-
-        this.props.navigation.navigate('Login')
       }
       else{
         alert("Oops! There was a problem signing up");
@@ -80,12 +77,10 @@ export default class SignUpDoctor extends React.Component {
   
   render() {
     return (
-    <ScrollView style={styles.cantainer}>
-      <KeyboardAvoidingView>
+      <View style={styles.cantainer}>
+      
         <Text style={styles.headerTxt}>Doctor</Text>
-
-      </KeyboardAvoidingView>
-        <View style={styles.subView}>
+        <ScrollView style={styles.subView}>
           <Text style={styles.subTxt}>Signup</Text>
           
           <TextInput style={styles.nameInput} placeholder="Name" onChangeText={(name => { this.setState({ name }) })} />
@@ -96,7 +91,7 @@ export default class SignUpDoctor extends React.Component {
           <TextInput style={styles.nameInput} placeholder="Address"  />
           <TouchableOpacity onPress={this.signUp}>
             <View style={styles.btn}>
-              <Text style={{width:"100%",textAlign:"center",fontSize:20,color:"white",marginTop:8,fontWeight:'bold'}}>Sign Up</Text>
+              <Text style={{width:"100%",textAlign:"center",fontSize:20,color:"#555",marginTop:8,fontWeight:'bold'}}>Sign Up</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>{this.props.navigation.navigate('Login')}}>          
@@ -105,8 +100,8 @@ export default class SignUpDoctor extends React.Component {
             </View>
           </TouchableOpacity>
 
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
       
     );
   }
@@ -115,12 +110,13 @@ export default class SignUpDoctor extends React.Component {
 
 const styles = StyleSheet.create({
   cantainer: {
-    backgroundColor: colors.themeColor,
+    backgroundColor: '#59f',
     height: hp('100%'),
   },
   subView: {
     backgroundColor: 'white',
     marginTop:hp('5%'),
+    marginBottom:hp('5%'),
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
   },
@@ -150,7 +146,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginTop:"10%",
-      backgroundColor:colors.themeDark,
+      backgroundColor:"#58f",
       marginHorizontal:"4%",
       borderRadius:50,
       width:"90%",
@@ -170,8 +166,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 40,
     fontWeight: 'bold',
-    marginBottom:10,
-    width:"100%"
   },
   endBtn: {
     marginRight: 80,

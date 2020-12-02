@@ -1,13 +1,10 @@
 import React from 'react';
 import Constants from 'expo-constants';
 import 'react-native-gesture-handler';
-import {View} from 'react-native';
-import {MaterialCommunityIcons,AntDesign} from '@expo/vector-icons';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Base64} from './Base64';
-
 
 // Navigation methods and functions
 import {NavigationContainer,useNavigation} from '@react-navigation/native';
@@ -23,29 +20,14 @@ import {firebase} from './auth/firebase/firebase';
 import LoginScreen from './Screens/Login/LoginScreen';
 import SignUpDoctor from './Screens/Login/SignUpDoctor';
 import SignUpPatient from './Screens/Login/SignUpPatient';
-// import Tesseract from './extra/tesseract';
+
+// Doctor Screens
+import DummyDoctor from './Screens/Doctor/DummyDoctor';
 
 // Patient Screens
 import DummyPatient from './Screens/Patient/DummyPatient';
-import DoctorsList from './Screens/Patient/DoctorsList';
-import DiseaseList from './Screens/Patient/DiseaseList';
-import DoctorDetails from './Screens/Patient/DoctorDetails';
-import BookAppointment from './Screens/Patient/BookAppointment';
-import PatientDashboard from './Screens/Patient/PatientDashboard';
-
-// Doctor Screens
-import DrawerNavigationDoctor from './Screens/Doctor/DrawerNavDoc';
-import FirstPageDoc from './Screens/Doctor/firstPageDoc';
-import Appointments from './Screens/Doctor/Appointments';
-import Reports from './Screens/Doctor/reports';
-import Patients from './Screens/Doctor/patients';
-import PatientViewTab from './Screens/Doctor/PatientViewTab';
-import { Entypo } from '@expo/vector-icons';
-import { colors } from './extra/colors';
 
 const Stack = createStackNavigator();
-
-// const ObjectId = require('mongodb').ObjectID;
 const abortController = new AbortController;
 
 Notifications.setNotificationHandler({
@@ -55,8 +37,6 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-
-
 
 // registration for sending notifications
 async function registerForPushNotificationsAsync() {
@@ -83,7 +63,7 @@ async function registerForPushNotificationsAsync() {
 }
 
 
-export default function App(props){
+export default function App({navigation}){
     
     const [expoToken,setExpoToken] = React.useState('');
     const [notification,setNotification] = React.useState(false);
@@ -96,20 +76,15 @@ export default function App(props){
         let token = {
           ExpoToken : ptoken,
         }
-        if(type=="doctor"){
+        if(type=="Doctor"){
             let doctor = await AsyncStorage.getItem('doctor');
-            doctor = JSON.parse(doctor);
-            console.log(doctor['_id'])
-            let where ={
-                "Mobile" : doctor.Mobile,
-            };
-            where = Base64.encode(JSON.stringify(where));
-            token = Base64.encode(JSON.stringify(token));
-            // console.log('http://192.168.1.11:5000/update/doctors/'+token+'/'+where);
-            fetch('http://192.168.1.11:5000/update/doctors/'+token+'/'+where,{signal:abortController.signal})
+            let where = "Store_Id ='"+doctor['_id']+"'";
+            where = Base64.encode(where);
+            token = Base64.encode(JSON.stringify(token))
+            fetch('https://192.168.43.250:5000/update/doctors/'+token+'/'+where,{signal:abortController.signal})
             .then(response => response.json())
             .then((responseJson) => {
-                if(responseJson.status==="Success")
+                if(responseJson.type==="Success")
                 { 
                     console.log("Doctor Notification Token Updated Successfully");
                 }
@@ -118,18 +93,15 @@ export default function App(props){
         }
         else{
             let patient = await AsyncStorage.getItem('patient');
-            let where = {
-                "Mobile" : patient.Mobile,
-            }
-            where = Base64.encode(JSON.stringify(where));
-            token = Base64.encode(JSON.stringify(token));
-            // console.log('http://192.168.1.11:5000/update/patients/'+token+'/'+where);
-            fetch('http://192.168.1.11:5000/update/patients/'+token+'/'+where,{signal:abortController.signal})
+            let where = "Patient_Id ='"+patient['_id']+"'";
+            where = Base64.encode(where);
+            token = Base64.encode(JSON.stringify(token))
+            fetch('http://192.168.43.250:5000/update/patients/'+token+'/'+where,{signal:abortController.signal})
             .then(response => response.json())
             .then((responseJson) => {
-                if(responseJson.status==="Success")
+                if(responseJson.type==="Success")
                 { 
-                    console.log("Patient Notification Token Updated Successfully");
+                console.log("Patient Notification Token Updated Successfully");
                 }
             })
             .catch(error => alert(error))
@@ -227,12 +199,12 @@ export default function App(props){
                 console.log(data);
                 if(data.action="customer-orders")
                 {
-                props.navigation.navigate('Root',{screen: 'orderDetails',params: {type:"get",order:data.orderId}});
+                navigation.navigate('Root',{screen: 'orderDetails',params: {type:"get",order:data.orderId}});
                 // navigation.navigate('orderDetails',{order:data.orderId})
                 }
                 else if(data.action="admin-orders")
                 {
-                props.navigation.navigate('Root',{screen: 'orderDetails',params: {type:"get",order:data.orderId}});
+                navigation.navigate('Root',{screen: 'orderDetails',params: {type:"get",order:data.orderId}});
                 // navigation.navigate('orderDetails',{order:data.orderId})
                 }
                 else if(data.action="change-shop")
@@ -255,7 +227,7 @@ export default function App(props){
 
                     }).done();
                     this.props.emptyCart();
-                    props.navigation.navigate('Root',{screen: 'Home',params: {reload:true}});
+                    navigation.navigate('Root',{screen: 'Home',params: {reload:true}});
                     // navigation.navigate('orderDetails',{order:data.orderId})
                 }
             });
@@ -266,6 +238,7 @@ export default function App(props){
                 let userToken = null;
                 let loginType = null;
 
+                if(loginType == "patient"){
                     try {
                         let patient = await AsyncStorage.getItem('patient');
                         if(patient!=null)
@@ -273,18 +246,25 @@ export default function App(props){
                             userToken = true;
                             loginType = 'patient';
                         }
+                    }
+                    
+                    
+                    catch (e) {
+                        console.log("error-"+e+"(Patient userToken could not be restored)");
+                    }
+                }   
+                else{
+                    try {
                         let doctor = await AsyncStorage.getItem('doctor');
                         if(doctor!=null){
                             userToken = true;
                             loginType = 'doctor';
                         }
-                    }
-                    
-                    
+                    } 
                     catch (e) {
-                        console.log("error-"+e+"(userToken could not be restored)");
+                        console.log("error-"+e+"(Doctor userToken could not be restored)");
                     }
-                
+                }
 
                 // After restoring token, we may need to validate it in production apps
 
@@ -305,26 +285,10 @@ export default function App(props){
 
     },[]
     );
-    const headerIcon=()=>{
-        return(
-          <Entypo name="menu" size={30} color="black" style={{marginLeft:20}} onPress={()=>props.navigation.openDrawer()}/>
-        );
-      };
     return(
         <NavigationContainer>
             <AuthContext.Provider value={authContext}>
-            <Stack.Navigator 
-            screenOptions={{
-                headerStyle: {
-                backgroundColor: colors.themeColor,
-                },
-                headerTintColor: colors.white,
-                headerTitleStyle: {
-                // fontWeight: 'bold',
-                alignSelf:"center",
-                justifyContent:"center"
-                },
-            }}>
+            <Stack.Navigator>
                 {loginState.isLoading == true ? (
                     <Stack.Screen name="Splash" component={LoginScreen} options={{headerShown:null}}/>
                 ) : (
@@ -340,53 +304,12 @@ export default function App(props){
                         {loginState.loginType == "doctor" ? (
                             // Doctor Screens
                             <>
-                                <Stack.Screen name="Doctor" component={DrawerNavigationDoctor}/>
-                                <Stack.Screen name="firstPageDoc" component={FirstPageDoc} options={{headerLeft:headerIcon,title:"Home"}}/>
-                                <Stack.Screen name="appointments" component={Appointments} options={{headerLeft:headerIcon,title:"Appointments"}}/>
-                                <Stack.Screen name="Reports" component={Reports} options={{headerLeft:headerIcon,title:"Reports"}}/>
-                                <Stack.Screen name="Patients" component={Patients} options={{headerLeft:headerIcon,title:"Patients"}}/>
-                                <Stack.Screen name="PatientViewTab" component={PatientViewTab} options={{headerLeft:headerIcon,title:'PatientView'}}/>
+                                <Stack.Screen name="dummyDoctor" component={DummyDoctor}/>
                             </>
                         ) : (
                             // Patients Screens
                             <>
-                            {/* <Stack.Screen name="tesseract" component={Tesseract}/> */}
-
-                                <Stack.Screen name="PatientDashboard" component={PatientDashboard} options={{
-                                    title:"Doctors",
-                                    headerLeft:() => 
-                                    <View style={{padding:16,flexDirection:'row',justifyContent:'space-between' }}>
-                                        <MaterialCommunityIcons name='text' color="white" size={30} />
-                                    </View>,
-                                    headerRight:() =>
-                                    <View  style={{flexDirection:'row'}}>
-                                        <AntDesign name="user" size={25} color="white" style={{marginRight:10}}/>              
-                                    </View>}}
-                                />
-                                
-                                <Stack.Screen name="DiseaseList" component={DiseaseList}/>
-                                
-                                <Stack.Screen name="DoctorsList" component={DoctorsList} options={{
-                                    title:"Doctors",
-                                    headerLeft:() => 
-                                    <View style={{padding:16,flexDirection:'row',justifyContent:'space-between' }}>
-                                        <MaterialCommunityIcons name='text' color="white" size={30} />
-                                    </View>,
-                                    headerRight:() =>
-                                    <View  style={{flexDirection:'row'}}>
-                                        <AntDesign name="user" size={25} color="white" style={{marginRight:10}}/>              
-                                    </View>}}
-                                />
-
-                                <Stack.Screen name="DoctorDetails" component={DoctorDetails} options={{headerRight:() =>
-                                    <View  style={{flexDirection:'row'}}>
-                                        <AntDesign name="user" size={25} color="white" style={{marginRight:10}}/>              
-                                    </View>}} 
-                                />
-
-                                <Stack.Screen name="BookAppointment" component={BookAppointment}/>
-                                                                
-                                {/* <Stack.Screen name="dummyPatient" component={DummyPatient}/> */}
+                                <Stack.Screen name="dummyPatient" component={DummyPatient}/>
                             </>
                         )}
                         </>

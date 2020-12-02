@@ -7,11 +7,13 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 
-import Base64 from '../../Base64';
+import {Base64} from '../../Base64';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AuthContext } from '../../auth/AuthContext';
+import { colors } from '../../extra/colors';
 
 
 export default class SignUpPatient extends React.Component {
@@ -49,12 +51,14 @@ export default class SignUpPatient extends React.Component {
         Address: this.state.address,
       }
       let signIn = Base64.encode(JSON.stringify(sign));
-      fetch('http://192.168.43.250:5000/insert/patients/'+signIn,{signal:this.abortController.signal})
+      fetch('http://192.168.1.11:5000/insert/patients/'+signIn,{signal:this.abortController.signal})
       .then(result => result.json())
       .then((resultJson) =>{
-        if(resultJson.type=="Success"){
+        console.log(resultJson)
+        if(resultJson.status=="Success"){
           alert("Sign Up Successful");
           this.setState({loader:false});
+          this.props.navigation.navigate('Login')
         }
         else{
           alert("Oops! There was a problem signing up");
@@ -71,21 +75,24 @@ export default class SignUpPatient extends React.Component {
   
   render() {
     return (
-      <View style={styles.cantainer}>
-      
+      <ScrollView style={styles.cantainer}>
+      <KeyboardAvoidingView>
         <Text style={styles.headerTxt}>Patient</Text>
-        <ScrollView style={styles.subView}>
+
+      </KeyboardAvoidingView>
+        <View style={styles.subView}>
+          
           <Text style={styles.subTxt}>Signup</Text>
           
           <TextInput style={styles.nameInput} placeholder="Name" onChangeText={(name => { this.setState({ name }) })} />
-          <TextInput style={styles.nameInput} placeholder="Age" onChangeText={(age => { this.setState({ age }) })} />
-          <TextInput style={styles.nameInput} placeholder="Mobile"  onChangeText={(mobile => { this.setState({ mobile }) })} />
-          <TextInput style={styles.nameInput} secureTextEntry placeholder="Password"  onChangeText={(pass => { this.setState({ pass }) })} />
+          <TextInput style={styles.nameInput} keyboardType="numeric" placeholder="Age" onChangeText={(age => { this.setState({ age }) })} />
+          <TextInput style={styles.nameInput} keyboardType="phone-pad" placeholder="Mobile"  onChangeText={(mobile => { this.setState({ mobile }) })} />
+          <TextInput style={styles.nameInput} keyboardAppearance="light" secureTextEntry placeholder="Password"  onChangeText={(pass => { this.setState({ pass }) })} />
           <TextInput style={styles.nameInput} secureTextEntry placeholder="Confirm Password" onChangeText={(conPass => { this.setState({ conPass }) })} />
           <TextInput style={styles.nameInput} placeholder="Address"  />
           <TouchableWithoutFeedback onPress={()=>{this.signUp()}}>
             <View style={styles.btn}>
-              <Text style={{width:"100%",textAlign:"center",fontSize:20,color:"#555",marginTop:8,fontWeight:'bold'}}>Sign Up</Text>
+              <Text style={{width:"100%",textAlign:"center",fontSize:20,color:"white",marginTop:8,fontWeight:'bold'}}>Sign Up</Text>
             </View>
           </TouchableWithoutFeedback>
           <TouchableOpacity onPress={()=>{this.props.navigation.navigate('Login')}}>          
@@ -94,8 +101,8 @@ export default class SignUpPatient extends React.Component {
             </View>
           </TouchableOpacity>
 
+        </View>
         </ScrollView>
-      </View>
       
     );
   }
@@ -104,13 +111,12 @@ export default class SignUpPatient extends React.Component {
 
 const styles = StyleSheet.create({
   cantainer: {
-    backgroundColor: '#59f',
+    backgroundColor: colors.themeColor,
     height: hp('100%'),
   },
   subView: {
     backgroundColor: 'white',
     marginTop:hp('5%'),
-    marginBottom:hp('5%'),
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
   },
@@ -139,7 +145,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginTop:"10%",
-      backgroundColor:"#58f",
+      backgroundColor:colors.themeDark,
       marginHorizontal:"4%",
       borderRadius:50,
       width:"90%",
@@ -156,8 +162,10 @@ const styles = StyleSheet.create({
   },
   endTxt: {
     fontSize: 15,
+    width:"100%",
     marginTop: 20,
     marginLeft: 40,
+    marginBottom:10,
     fontWeight: 'bold',
   },
   endBtn: {

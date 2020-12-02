@@ -7,85 +7,74 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  KeyboardAvoidingView,
 } from 'react-native';
-import {Base64} from '../../Base64';
+
+import Base64 from '../../Base64';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { AuthContext } from '../../auth/AuthContext';
-import { colors } from '../../extra/colors';
 
 
-
-export default class SignUpDoctor extends React.Component {
+export default class SignUpPatient extends React.Component {
   constructor() {
     super();
     this.state = {
       email: '',
       name:'',
+      age:'',
       mobile:'',
       conPass:'',
       pass: '',
       address:'',
-      // department:'',
-      // workingExp:'',
       loader:false,
     }
     this.signUp = this.signUp.bind(this);
   }
 
-
-
   abortController = new AbortController;
 
-  signUp = async () => {
+  signUp = () => {
     
     if(this.state.pass != this.state.conPass){
       alert("Entered Passwords do not match");
     }
     else{
+      console.log("AAya");
       this.setState({loader:true});
-    const pass = this.state.pass;
-    let sign = {
-      Name: this.state.name,
-      Age:this.state.age,
-      Mobile:this.state.mobile,
-      Password:pass,
-      Address:this.state.address,
-      // Department:this.state.department,
-      // Working_Experience:this.state.workingExp,
-    }
-    let signUp = Base64.encode(JSON.stringify(sign));
-    console.log('http://192.168.1.11:5000/insert/doctors/'+signUp);
-    fetch('http://192.168.1.11:5000/insert/doctors/'+signUp,{signal:this.abortController.signal})
-    .then(result => result.json())
-    .then((resultJson) => {
-      if(resultJson.status=="Success"){
-        alert("Sign Up Successful");
-        this.setState({loader:false});
+      const sign = {
+        Name: this.state.name,
+        Age: this.state.age,
+        Mobile: this.state.mobile,
+        Email: this.state.email,
+        Password: this.state.pass,
+        Address: this.state.address,
+      }
+      let signIn = Base64.encode(JSON.stringify(sign));
+      fetch('http://192.168.43.250:5000/insert/patients/'+signIn,{signal:this.abortController.signal})
+      .then(result => result.json())
+      .then((resultJson) =>{
+        if(resultJson.type=="Success"){
+          alert("Sign Up Successful");
+          this.setState({loader:false});
+        }
+        else{
+          alert("Oops! There was a problem signing up");
+          this.setState({loader:false});
 
-        this.props.navigation.navigate('Login')
-      }
-      else{
-        alert("Oops! There was a problem signing up");
+        }
+      })
+      .catch(err => {
+        console.log(err);
         this.setState({loader:false});
+      })
       }
-    })
-    .catch(err => {
-      console.log(err);
-      this.setState({loader:false});
-    })
-    }
-  
   }
-
   
   render() {
     return (
-    <ScrollView style={styles.cantainer}>
-      <KeyboardAvoidingView>
-        <Text style={styles.headerTxt}>Doctor</Text>
-
-      </KeyboardAvoidingView>
-        <View style={styles.subView}>
+      <View style={styles.cantainer}>
+      
+        <Text style={styles.headerTxt}>Patient</Text>
+        <ScrollView style={styles.subView}>
           <Text style={styles.subTxt}>Signup</Text>
           
           <TextInput style={styles.nameInput} placeholder="Name" onChangeText={(name => { this.setState({ name }) })} />
@@ -94,19 +83,19 @@ export default class SignUpDoctor extends React.Component {
           <TextInput style={styles.nameInput} secureTextEntry placeholder="Password"  onChangeText={(pass => { this.setState({ pass }) })} />
           <TextInput style={styles.nameInput} secureTextEntry placeholder="Confirm Password" onChangeText={(conPass => { this.setState({ conPass }) })} />
           <TextInput style={styles.nameInput} placeholder="Address"  />
-          <TouchableOpacity onPress={this.signUp}>
+          <TouchableWithoutFeedback onPress={()=>{this.signUp()}}>
             <View style={styles.btn}>
-              <Text style={{width:"100%",textAlign:"center",fontSize:20,color:"white",marginTop:8,fontWeight:'bold'}}>Sign Up</Text>
+              <Text style={{width:"100%",textAlign:"center",fontSize:20,color:"#555",marginTop:8,fontWeight:'bold'}}>Sign Up</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableWithoutFeedback>
           <TouchableOpacity onPress={()=>{this.props.navigation.navigate('Login')}}>          
             <View style={styles.endView}>
               <Text style={styles.endTxt}>Already have an account?</Text>
             </View>
           </TouchableOpacity>
 
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
       
     );
   }
@@ -115,21 +104,22 @@ export default class SignUpDoctor extends React.Component {
 
 const styles = StyleSheet.create({
   cantainer: {
-    backgroundColor: colors.themeColor,
+    backgroundColor: '#59f',
     height: hp('100%'),
   },
   subView: {
     backgroundColor: 'white',
     marginTop:hp('5%'),
+    marginBottom:hp('5%'),
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
   },
   headerTxt: {
-    fontSize: 40,
-    width:"100%",
+    fontSize: 35,
     fontWeight: 'bold',
-    textAlign:"center",
     color: 'white',
+    width:"100%",
+    textAlign:"center",
     marginTop: hp('5%'),
   },
   subTxt: {
@@ -143,14 +133,13 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         borderWidth:0.5,
         padding:10,
-        paddingLeft:20,
         borderRadius:20,
         marginHorizontal:"3%",
         marginTop:"8%"
   },
   btn: {
     marginTop:"10%",
-      backgroundColor:colors.themeDark,
+      backgroundColor:"#58f",
       marginHorizontal:"4%",
       borderRadius:50,
       width:"90%",
@@ -170,13 +159,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 40,
     fontWeight: 'bold',
-    marginBottom:10,
-    width:"100%"
   },
   endBtn: {
     marginRight: 80,
   },
   
 });
+
 
 // PJ - Sign Up Successful - Connection to the insert API Successful
