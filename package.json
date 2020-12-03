@@ -15,18 +15,26 @@
     "@react-navigation/stack": "^5.9.3",
     "expo": "~39.0.2",
     "expo-status-bar": "~1.0.2",
+    "express": "^4.17.1",
     "moment": "^2.29.1",
+    "multer": "^1.4.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.2.tar.gz",
     "react-native-gesture-handler": "~1.7.0",
+    "react-native-image-crop-picker": "^0.35.1",
+    "react-native-keyboard-aware-scroll-view": "^0.9.3",
     "react-native-paper": "^4.2.0",
+    "react-native-progress": "^4.1.2",
     "react-native-reanimated": "~1.13.0",
     "react-native-responsive-screen": "^1.4.1",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-tab-view": "^2.15.2",
-    "react-native-web": "~0.13.12"
+    "react-native-tesseract-ocr": "^2.0.1",
+    "react-native-vector-icons": "^7.1.0",
+    "react-native-web": "~0.13.12",
+    "tesseract.js": "^2.1.4"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

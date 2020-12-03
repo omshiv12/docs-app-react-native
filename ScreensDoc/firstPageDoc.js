@@ -1,6 +1,5 @@
 import React ,{useState,useEffect}from 'react'
 import { StyleSheet, Text, View,Image} from 'react-native'
-import moment from 'moment';
 import { Octicons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
@@ -32,7 +31,8 @@ export default function FirstPageDoc(props) {
                 <Octicons name="file-directory" size={60} color="#ffffff"  />
                 </TouchableOpacity>
             </View>
-        </View>
+            </View>
+       
     )
 }
 

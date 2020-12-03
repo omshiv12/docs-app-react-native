@@ -7,6 +7,7 @@ import Reports from '../ScreensDoc/reports';
 import Appointments from '../ScreensDoc/Appointments';
 import PatientView from '../ScreensDoc/PatientView';
 import PatientViewTab from '../ScreensDoc/PatientViewTab';
+import Reschedule from '../ScreensDoc/Reschedule';
 
 const homeStackDoc=createStackNavigator();
 
@@ -28,6 +29,8 @@ export default function HomeStackDoc(props) {
                 options={{headerLeft:headerIcon,title:"Patients"}}/>
                 <homeStackDoc.Screen name="PatientViewTab" component={PatientViewTab} 
                 options={{headerLeft:headerIcon,title:'PatientView'}}/>
+                <homeStackDoc.Screen name='Reschedule' component={Reschedule} 
+                options={{headerLeft:headerIcon,title:'Reschedule'}}/>
        </homeStackDoc.Navigator>
     )
 }
