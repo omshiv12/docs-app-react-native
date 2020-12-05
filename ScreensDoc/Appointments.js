@@ -1,17 +1,34 @@
-import React from 'react'
-import { StyleSheet, Text, View ,Image} from 'react-native'
+import moment from 'moment';
+import React ,{useState}from 'react'
+import { Button,StyleSheet, Text, View ,Image, Alert} from 'react-native'
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Card } from 'react-native-paper';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 export default function Appointments(props) {
-    let appointmentList=[{id:'1',name:'Mukund Madhav Goyal',condition:'No problem', time:'10:50-11:15', gender:'Male',blood:'A+',address:'Hapur',mobile:'7060207573',age:'19'},
+    let appointmentList=[{id:'1',name:'Mukund Madhav Goyal',condition:'No problem', time:'12:50-13:15', gender:'Male',blood:'A+',address:'Hapur',mobile:'7060207573',age:'19'},
                      {id:'2',name:'Punit Jain',condition:'Serious Heart Disease Due To Anwesha Singh', time:'11:50-12:15', gender:'Female',blood:'B-',address:'Indore',mobile:'6352419870',age:'20'},
                      {id:'3',name:'Shivam Singhal',condition:'Serious Kidney Problem', time:'12:50-13:15', gender:'Female',blood:'A-',address:'Modinagar',mobile:'8596741230',age:'21'},
                      ];
+    const [isPickerVisible, setPickerVisibility] = useState(false);
+    const [dt,setDt]=useState('');
+    let rt;
+    const showPicker = () => {
+    setPickerVisibility(true);
+    };
+    const hidePicker = () => {
+    setPickerVisibility(false);
+    };
+    const handleConfirm = (datetime) => {
+    rt=moment(datetime).format('DD-MM-YYYY HH:mm')
+    setDt(rt);
+    hidePicker();
+    Alert.alert('Confirm?','Reschedule to '+rt,[{text:'Cancel'},{text:'Ok'   ,onPress:(alert('update time and sort the list again'))   }]);
+    };
     return (
         <View>
         <FlatList
-            data={appointmentList}
+            data={appointmentList.sort((a, b) => a.time.localeCompare(b.time))}
             renderItem={({item})=>
             <Card style={styles.cardStyle}>
                 <TouchableOpacity onPress={()=>props.navigation.navigate('PatientViewTab',item)}>
@@ -31,7 +48,13 @@ export default function Appointments(props) {
                         </View>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>props.navigation.navigate('Reschedule',item)}>
+                <DateTimePickerModal
+                isVisible={isPickerVisible}
+                mode="datetime"
+                onConfirm={handleConfirm}
+                onCancel={hidePicker}
+            />
+                <TouchableOpacity onPress={showPicker}>
                     <View style={{flexDirection:'row' ,alignSelf:'flex-end'}}>
                             <MaterialIcons name="refresh" size={24} color="#99ff99" />
                             <Text style={{color:'#99ff99',fontSize:16}}>Reschedule</Text>
