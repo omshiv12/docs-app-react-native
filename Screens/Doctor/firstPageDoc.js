@@ -5,9 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../../auth/AuthContext';
-
 export default function FirstPageDoc(props) {
-
     const {signOut} = React.useContext(AuthContext);
     return (
         <View style={{flex:1,backgroundColor:"#ffffff"}}>
@@ -37,11 +35,10 @@ export default function FirstPageDoc(props) {
             <View style={styles.card2}>
                 <TouchableOpacity style={{alignItems:'center'}} onPress={()=>signOut()}>
                 <Text style={{fontSize:20,color:"#ffffff"}}>Sign Out</Text>
-                <Octicons name="file-directory" size={60} color="#ffffff"  />
                 </TouchableOpacity>
             </View>
-            
-        </View>
+            </View>
+       
     )
 }
 

@@ -106,7 +106,7 @@ export default function App(props){
             where = Base64.encode(JSON.stringify(where));
             token = Base64.encode(JSON.stringify(token));
             // console.log('http://192.168.1.11:5000/update/doctors/'+token+'/'+where);
-            fetch('http://192.168.43.250:5000/update/doctors/'+token+'/'+where,{signal:abortController.signal})
+            fetch('http://192.168.43.121:5000/update/doctors/'+token+'/'+where,{signal:abortController.signal})
             .then(response => response.json())
             .then((responseJson) => {
                 if(responseJson.status==="Success")
@@ -124,7 +124,7 @@ export default function App(props){
             where = Base64.encode(JSON.stringify(where));
             token = Base64.encode(JSON.stringify(token));
             // console.log('http://192.168.1.11:5000/update/patients/'+token+'/'+where);
-            fetch('http://192.168.43.250:5000/update/patients/'+token+'/'+where,{signal:abortController.signal})
+            fetch('http://192.168.43.121:5000/update/patients/'+token+'/'+where,{signal:abortController.signal})
             .then(response => response.json())
             .then((responseJson) => {
                 if(responseJson.status==="Success")
@@ -305,11 +305,11 @@ export default function App(props){
 
     },[]
     );
-    const headerIcon=()=>{
-        return(
-          <Entypo name="menu" size={30} color="black" style={{marginLeft:20}} onPress={()=>props.navigation.openDrawer()}/>
-        );
-      };
+    // const headerIcon=()=>{
+    //     return(
+    //       <Entypo name="menu" size={30} color="black" style={{marginLeft:20}} onPress={()=>props.navigation.openDrawer()}/>
+    //     );
+    //   };
     return(
         <NavigationContainer>
             <AuthContext.Provider value={authContext}>
@@ -340,12 +340,14 @@ export default function App(props){
                         {loginState.loginType == "doctor" ? (
                             // Doctor Screens
                             <>
-                                <Stack.Screen name="Doctor" component={DrawerNavigationDoctor}/>
+                                {/* <Stack.Screen name="Doctor" component={DrawerNavigationDoctor}/>
                                 <Stack.Screen name="firstPageDoc" component={FirstPageDoc} options={{headerLeft:headerIcon,title:"Home"}}/>
                                 <Stack.Screen name="appointments" component={Appointments} options={{headerLeft:headerIcon,title:"Appointments"}}/>
                                 <Stack.Screen name="Reports" component={Reports} options={{headerLeft:headerIcon,title:"Reports"}}/>
                                 <Stack.Screen name="Patients" component={Patients} options={{headerLeft:headerIcon,title:"Patients"}}/>
                                 <Stack.Screen name="PatientViewTab" component={PatientViewTab} options={{headerLeft:headerIcon,title:'PatientView'}}/>
+                                 */}
+                                 <Stack.Screen name="DrawerNavigationDoctor" component={DrawerNavigationDoctor} options={{headerShown:false}}/>
                             </>
                         ) : (
                             // Patients Screens
