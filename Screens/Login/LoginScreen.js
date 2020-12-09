@@ -22,7 +22,7 @@ export default function LoginScreen() {
           Password: pass,
         };
         data = Base64.encode(JSON.stringify(data));
-        fetch('http://192.168.1.11:5000/login/doctors/'+data)
+        fetch('http://192.168.43.250:5000/login/doctors/'+data)
         .then(result => result.json())
         .then(resultJson => {
           console.log(resultJson);
@@ -46,7 +46,7 @@ export default function LoginScreen() {
           Password: pass,
         };
         data = Base64.encode(JSON.stringify(data));
-        fetch('http://192.168.1.11:5000/login/patients/'+data)
+        fetch('http://192.168.43.250:5000/login/patients/'+data)
         .then(result => result.json())
         .then(resultJson => {
           console.log(resultJson);

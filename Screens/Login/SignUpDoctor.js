@@ -54,8 +54,8 @@ export default class SignUpDoctor extends React.Component {
       // Working_Experience:this.state.workingExp,
     }
     let signUp = Base64.encode(JSON.stringify(sign));
-    console.log('http://192.168.1.11:5000/insert/doctors/'+signUp);
-    fetch('http://192.168.1.11:5000/insert/doctors/'+signUp,{signal:this.abortController.signal})
+    console.log('http://192.168.43.250:5000/insert/doctors/'+signUp);
+    fetch('http://192.168.43.250:5000/insert/doctors/'+signUp,{signal:this.abortController.signal})
     .then(result => result.json())
     .then((resultJson) => {
       if(resultJson.status=="Success"){

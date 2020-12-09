@@ -106,7 +106,7 @@ export default function App(props){
             where = Base64.encode(JSON.stringify(where));
             token = Base64.encode(JSON.stringify(token));
             // console.log('http://192.168.1.11:5000/update/doctors/'+token+'/'+where);
-            fetch('http://192.168.1.11:5000/update/doctors/'+token+'/'+where,{signal:abortController.signal})
+            fetch('http://192.168.43.250:5000/update/doctors/'+token+'/'+where,{signal:abortController.signal})
             .then(response => response.json())
             .then((responseJson) => {
                 if(responseJson.status==="Success")
@@ -124,7 +124,7 @@ export default function App(props){
             where = Base64.encode(JSON.stringify(where));
             token = Base64.encode(JSON.stringify(token));
             // console.log('http://192.168.1.11:5000/update/patients/'+token+'/'+where);
-            fetch('http://192.168.1.11:5000/update/patients/'+token+'/'+where,{signal:abortController.signal})
+            fetch('http://192.168.43.250:5000/update/patients/'+token+'/'+where,{signal:abortController.signal})
             .then(response => response.json())
             .then((responseJson) => {
                 if(responseJson.status==="Success")
