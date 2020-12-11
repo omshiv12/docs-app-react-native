@@ -31,6 +31,12 @@ export default function FirstPageDoc(props) {
                 <Octicons name="file-directory" size={60} color="#ffffff"  />
                 </TouchableOpacity>
             </View>
+            <View style={styles.card2}>
+                <TouchableOpacity style={{alignItems:'center'}} onPress={()=>props.navigation.navigate('QR')}>
+                <Text style={{fontSize:20,color:"#ffffff"}}>Reports</Text>
+                <Octicons name="file-directory" size={60} color="#ffffff"  />
+                </TouchableOpacity>
+            </View>
             </View>
        
     )

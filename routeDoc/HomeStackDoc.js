@@ -8,6 +8,7 @@ import Appointments from '../ScreensDoc/Appointments';
 import PatientView from '../ScreensDoc/PatientView';
 import PatientViewTab from '../ScreensDoc/PatientViewTab';
 import Reschedule from '../ScreensDoc/Reschedule';
+import QrScanner from '../ScreensDoc/QrScanner';
 
 const homeStackDoc=createStackNavigator();
 
@@ -31,6 +32,7 @@ export default function HomeStackDoc(props) {
                 options={{headerLeft:headerIcon,title:'PatientView'}}/>
                 <homeStackDoc.Screen name='Reschedule' component={Reschedule} 
                 options={{headerLeft:headerIcon,title:'Reschedule'}}/>
+                <homeStackDoc.Screen name='QR' component={QrScanner} />
        </homeStackDoc.Navigator>
     )
 }
