@@ -68,7 +68,7 @@ export default class DoctorDetails extends React.Component{
                         style={{width:50,height:50,marginRight:16,borderRadius:30,alignItems:'center',justifyContent:'center'}}/> */}
                         <View>
                             <Text style={{fontSize:20,color:"white"}}>{this.state.doctor['Name']}</Text>
-                            <Text style={{color:colors.grey}}>Specialist</Text>
+                            <Text style={{color:colors.grey}}>Specialist - {this.state.doctor['Speciality']}</Text>
                         </View>
                     
                     </View>
@@ -89,9 +89,7 @@ export default class DoctorDetails extends React.Component{
                 
                 <View>
                     <Text>
-                        It deals with the diagnosis and treatment of such conditon
-                        as congenital heart defects,coronary artery diseases,electrophysiology,
-                        heart failure and valvular heart diseases
+                        {this.state.doctor.Bio}
                     </Text>
                 </View> 
             </View>
@@ -110,7 +108,7 @@ export default class DoctorDetails extends React.Component{
                 </View>
                 <View>
                     <Text>
-                        Specialist,over 30 years of experience ,
+                        {this.state.doctor.Skills}
                     </Text>
                 </View> 
             </View>

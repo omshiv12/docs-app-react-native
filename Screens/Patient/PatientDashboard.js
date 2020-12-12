@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,Image } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { Fontisto } from '@expo/vector-icons'; 
 import { Octicons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -43,9 +42,9 @@ export default function FirstPage(props) {
             
             <View style={{flexDirection:'row',flex:1}}>
                 <View style={styles.optCard1}>
-                <TouchableOpacity onPress={()=>props.navigation.navigate("DiseaseList")}>
+                <TouchableOpacity onPress={()=>props.navigation.navigate("MyAppointments")}>
                     <View style={{alignItems:'center'}}>
-                    <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>My Appointments!</Text>
+                    <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>My Appointments</Text>
                     <FontAwesome5 name="clipboard-list" size={60} color="#ffffff"  />
                     </View>
                 </TouchableOpacity>
@@ -65,21 +64,12 @@ export default function FirstPage(props) {
                 <View style={styles.optCard1}>
                     <TouchableOpacity onPress={()=>props.navigation.navigate("records")}>
                         <View style={{alignItems:'center'}}>
-                        <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>My Medical Records</Text>
+                        <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>Medical Records</Text>
                         <Octicons name="file-directory" size={60} color="#ffffff"  />
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.optCard2}>
-                    <TouchableOpacity onPress={()=>props.navigation.navigate("favDoctors")}>
-                    <View style={{alignItems:'center'}}>
-                        <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>My Favorite Doctors!</Text>
-                        <Fontisto name="doctor" size={60} color="#ffffff" />
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View style={styles.optCard2}> 
+                <View style={styles.optCard2}> 
                     <TouchableOpacity onPress={()=>signOut()}>
                         <View style={{alignItems:'center'}}>
                             <Text style={{color:"#ffffff",fontSize:15,marginTop:30}}>SignOut</Text>
@@ -87,6 +77,8 @@ export default function FirstPage(props) {
                         </View>
                     </TouchableOpacity>
                 </View>
+            </View>
+            
         </View>
         </ScrollView>
     )

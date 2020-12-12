@@ -4,10 +4,8 @@ import { Octicons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { AuthContext } from '../../auth/AuthContext';
-import { colors } from '../../extra/colors';
+
 export default function FirstPageDoc(props) {
-    const {signOut} = React.useContext(AuthContext);
     return (
         <View style={{flex:1,backgroundColor:"#ffffff"}}>
             <View style={styles.imgContainer}>
@@ -33,13 +31,7 @@ export default function FirstPageDoc(props) {
                 <Octicons name="file-directory" size={60} color="#ffffff"  />
                 </TouchableOpacity>
             </View>
-            <View style={styles.card2}>
-                <TouchableOpacity style={{alignItems:'center'}} onPress={()=>signOut()}>
-                <Text style={{fontSize:20,color:"#ffffff"}}>Sign Out</Text>
-                </TouchableOpacity>
-            </View>
-            </View>
-       
+        </View>
     )
 }
 
@@ -74,22 +66,22 @@ const styles = StyleSheet.create({
     cards:
     {
         flex:2,
-        backgroundColor:colors.themeColor,
+        backgroundColor:"#224D80",
         width:"80%",
         height:100,
-        borderRadius:20,
+        borderRadius:50,
         marginTop:50,
-        marginHorizontal:10,
+        marginHorizontal:5,
         alignItems:'center',
         justifyContent:'center'
     },
     card2:
     {
-        backgroundColor:colors.themeColor,
+        backgroundColor:"#224D80",
         height:100,
         marginTop:20,
         marginHorizontal:10,
-        borderRadius:20,
+        borderRadius:50,
         alignItems:'center',
         justifyContent:'center',
     }

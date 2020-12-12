@@ -23,6 +23,9 @@ export default class SignUpPatient extends React.Component {
       email: '',
       name:'',
       age:'',
+      address:'',
+      blood_grp:'',
+      gender:'',
       mobile:'',
       conPass:'',
       pass: '',
@@ -46,6 +49,8 @@ export default class SignUpPatient extends React.Component {
         Name: this.state.name,
         Age: this.state.age,
         Mobile: this.state.mobile,
+        Gender : this.state.gender,
+        Blood_Group : this.state.blood_grp,
         Email: this.state.email,
         Password: this.state.pass,
         Address: this.state.address,
@@ -86,10 +91,12 @@ export default class SignUpPatient extends React.Component {
           
           <TextInput style={styles.nameInput} placeholder="Name" onChangeText={(name => { this.setState({ name }) })} />
           <TextInput style={styles.nameInput} keyboardType="numeric" placeholder="Age" onChangeText={(age => { this.setState({ age }) })} />
+          <TextInput style={styles.nameInput} placeholder="Blood Group" onChangeText={(blood_grp => { this.setState({ blood_grp }) })} />
+          <TextInput style={styles.nameInput} placeholder="Gender" onChangeText={(gender => { this.setState({ gender }) })} />
           <TextInput style={styles.nameInput} keyboardType="phone-pad" placeholder="Mobile"  onChangeText={(mobile => { this.setState({ mobile }) })} />
           <TextInput style={styles.nameInput} keyboardAppearance="light" secureTextEntry placeholder="Password"  onChangeText={(pass => { this.setState({ pass }) })} />
           <TextInput style={styles.nameInput} secureTextEntry placeholder="Confirm Password" onChangeText={(conPass => { this.setState({ conPass }) })} />
-          <TextInput style={styles.nameInput} placeholder="Address"  />
+          <TextInput style={styles.nameInput} placeholder="Address" onChangeText={(address => { this.setState({ address }) })} />
           <TouchableWithoutFeedback onPress={()=>{this.signUp()}}>
             <View style={styles.btn}>
               <Text style={{width:"100%",textAlign:"center",fontSize:20,color:"white",marginTop:8,fontWeight:'bold'}}>Sign Up</Text>

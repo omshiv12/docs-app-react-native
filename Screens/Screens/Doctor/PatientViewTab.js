@@ -6,11 +6,13 @@ import PrevReports from './PrevReports';
 const Tab = createMaterialTopTabNavigator();
 
 export default function PatientViewTab(props) {
-    let inf = props.route.params;
+    let inf=props.route.params;
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Patient" component={PatientView}  initialParams={inf} />
-            <Tab.Screen name="Past Reports/Records" component={PrevReports} initialParams={inf} />
+            <Tab.Screen name="PatientView" component={PatientView}  initialParams={inf} />
+            <Tab.Screen name="Report" component={PrevReports} />
         </Tab.Navigator>
     )
 }
+
+const styles = StyleSheet.create({})

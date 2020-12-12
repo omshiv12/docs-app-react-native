@@ -7,6 +7,8 @@ import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Base64} from './Base64';
+import {QrIcon} from './extra/QrIcon';
+import {QrScanIcon} from './extra/QrScanIcon';
 
 
 // Navigation methods and functions
@@ -32,16 +34,26 @@ import DiseaseList from './Screens/Patient/DiseaseList';
 import DoctorDetails from './Screens/Patient/DoctorDetails';
 import BookAppointment from './Screens/Patient/BookAppointment';
 import PatientDashboard from './Screens/Patient/PatientDashboard';
+import QRCodePatient from './Screens/Patient/QRCodePatient';
+import AddReports from './Screens/Patient/AddReports';
+import records from './Screens/Patient/records';
+import MyAppointments from './Screens/Patient/MyAppointments';
 
 // Doctor Screens
 import DrawerNavigationDoctor from './Screens/Doctor/DrawerNavDoc';
-import FirstPageDoc from './Screens/Doctor/firstPageDoc';
-import Appointments from './Screens/Doctor/Appointments';
-import Reports from './Screens/Doctor/reports';
-import Patients from './Screens/Doctor/patients';
-import PatientViewTab from './Screens/Doctor/PatientViewTab';
+import ShowReport from './Screens/Doctor/ShowReport';
+// import FirstPageDoc from './Screens/Doctor/firstPageDoc';
+// import Appointments from './Screens/Doctor/Appointments';
+// import Reports from './Screens/Doctor/reports';
+// import Patients from './Screens/Doctor/patients';
+// import PatientViewTab from './Screens/Doctor/PatientViewTab';
+// import ScanQRCode from './Screens/Doctor/ScanQRCode';
+// import DummyDoctor from './Screens/Doctor/DummyDoctor';
+
 import { Entypo } from '@expo/vector-icons';
 import { colors } from './extra/colors';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import QRCode from 'react-native-qrcode-generator';
 
 const Stack = createStackNavigator();
 
@@ -73,7 +85,6 @@ async function registerForPushNotificationsAsync() {
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      
     } 
     else 
     {
@@ -83,7 +94,7 @@ async function registerForPushNotificationsAsync() {
 }
 
 
-export default function App(props){
+export default function App({props}){
     
     const [expoToken,setExpoToken] = React.useState('');
     const [notification,setNotification] = React.useState(false);
@@ -106,7 +117,7 @@ export default function App(props){
             where = Base64.encode(JSON.stringify(where));
             token = Base64.encode(JSON.stringify(token));
             // console.log('http://192.168.1.11:5000/update/doctors/'+token+'/'+where);
-            fetch('http://192.168.43.121:5000/update/doctors/'+token+'/'+where,{signal:abortController.signal})
+            fetch('http://192.168.1.11:5000/update/doctors/'+token+'/'+where,{signal:abortController.signal})
             .then(response => response.json())
             .then((responseJson) => {
                 if(responseJson.status==="Success")
@@ -124,7 +135,7 @@ export default function App(props){
             where = Base64.encode(JSON.stringify(where));
             token = Base64.encode(JSON.stringify(token));
             // console.log('http://192.168.1.11:5000/update/patients/'+token+'/'+where);
-            fetch('http://192.168.43.121:5000/update/patients/'+token+'/'+where,{signal:abortController.signal})
+            fetch('http://192.168.1.11:5000/update/patients/'+token+'/'+where,{signal:abortController.signal})
             .then(response => response.json())
             .then((responseJson) => {
                 if(responseJson.status==="Success")
@@ -305,11 +316,12 @@ export default function App(props){
 
     },[]
     );
-    // const headerIcon=()=>{
-    //     return(
-    //       <Entypo name="menu" size={30} color="black" style={{marginLeft:20}} onPress={()=>props.navigation.openDrawer()}/>
-    //     );
-    //   };
+    const headerIcon=()=>{
+        return(
+          <Entypo name="menu" size={30} color="black" style={{marginLeft:20}} onPress={()=>props.navigation.openDrawer()}/>
+        );
+      };
+
     return(
         <NavigationContainer>
             <AuthContext.Provider value={authContext}>
@@ -340,33 +352,73 @@ export default function App(props){
                         {loginState.loginType == "doctor" ? (
                             // Doctor Screens
                             <>
-                                {/* <Stack.Screen name="Doctor" component={DrawerNavigationDoctor}/>
-                                <Stack.Screen name="firstPageDoc" component={FirstPageDoc} options={{headerLeft:headerIcon,title:"Home"}}/>
+
+                                <Stack.Screen name="DrawerNavigationDoctor" component={DrawerNavigationDoctor} options={{headerShown:false}}/>
+                                {/* <Stack.Screen name="DummyDoctor" component={DummyDoctor} options={{headerRight:()=>
+                                    <View  style={{flexDirection:'row'}}>
+                                        <QrScanIcon {...props}/>
+                                    </View>}}/> */}
+                                {/* <Stack.Screen name="ScanQRCode" component={ScanQRCode} options={{
+                                    title:"Scan QR Code",
+                                }}
+                                /> */}
+                                {/* <Stack.Screen name="firstPageDoc" component={FirstPageDoc} options={{headerLeft:headerIcon,title:"Home"}}/>
                                 <Stack.Screen name="appointments" component={Appointments} options={{headerLeft:headerIcon,title:"Appointments"}}/>
                                 <Stack.Screen name="Reports" component={Reports} options={{headerLeft:headerIcon,title:"Reports"}}/>
                                 <Stack.Screen name="Patients" component={Patients} options={{headerLeft:headerIcon,title:"Patients"}}/>
-                                <Stack.Screen name="PatientViewTab" component={PatientViewTab} options={{headerLeft:headerIcon,title:'PatientView'}}/>
-                                 */}
-                                 <Stack.Screen name="DrawerNavigationDoctor" component={DrawerNavigationDoctor} options={{headerShown:false}}/>
+                                <Stack.Screen name="PatientViewTab" component={PatientViewTab} options={{headerLeft:headerIcon,title:'PatientView'}}/> */}
                             </>
                         ) : (
                             // Patients Screens
                             <>
-                            {/* <Stack.Screen name="tesseract" component={Tesseract}/> */}
-
+                            
                                 <Stack.Screen name="PatientDashboard" component={PatientDashboard} options={{
-                                    title:"Doctors",
+                                    title:"Dashboard",
                                     headerLeft:() => 
                                     <View style={{padding:16,flexDirection:'row',justifyContent:'space-between' }}>
                                         <MaterialCommunityIcons name='text' color="white" size={30} />
                                     </View>,
-                                    headerRight:() =>
+                                    headerRight:()=>
                                     <View  style={{flexDirection:'row'}}>
-                                        <AntDesign name="user" size={25} color="white" style={{marginRight:10}}/>              
+                                        <AntDesign name="user" size={25} color="white" style={{marginRight:10}}/> 
+                                        <QrIcon {...props}/>
                                     </View>}}
                                 />
+
+                                <Stack.Screen name="records" component={records} options={{
+                                    title:"Medical Records",
+                                    headerLeft:() => 
+                                    <View style={{padding:16,flexDirection:'row',justifyContent:'space-between' }}>
+                                        <MaterialCommunityIcons name='text' color="white" size={30} />
+                                    </View>,
+                                    headerRight:()=>
+                                    <View  style={{flexDirection:'row'}}>
+                                        <AntDesign name="user" size={25} color="white" style={{marginRight:10}}/> 
+                                        <QrIcon {...props}/>
+                                    </View>}}
+                                />
+
+                                <Stack.Screen name="MyAppointments" component={MyAppointments} options={{
+                                    title:"My Appointments",
+                                    headerLeft:() => 
+                                    <View style={{padding:16,flexDirection:'row',justifyContent:'space-between' }}>
+                                        <MaterialCommunityIcons name='text' color="white" size={30} />
+                                    </View>,
+                                    headerRight:()=>
+                                    <View  style={{flexDirection:'row'}}>
+                                        <AntDesign name="user" size={25} color="white" style={{marginRight:10}}/> 
+                                        <QrIcon {...props}/>
+                                    </View>}}
+                                />
+                                <Stack.Screen name="Add Reports" component = {AddReports}/>
+                                <Stack.Screen name="QRCodePatient" component={QRCodePatient}/>
                                 
-                                <Stack.Screen name="DiseaseList" component={DiseaseList}/>
+                                <Stack.Screen name="DiseaseList" component={DiseaseList} options={{title:"Diseases/Symptoms",headerRight:()=>
+                                    <View  style={{flexDirection:'row'}}>
+                                        <AntDesign name="user" size={25} color="white" style={{marginRight:10}}/> 
+                                        <QrIcon {...props}/>
+                                    </View>}}
+                                />
                                 
                                 <Stack.Screen name="DoctorsList" component={DoctorsList} options={{
                                     title:"Doctors",
@@ -386,7 +438,12 @@ export default function App(props){
                                     </View>}} 
                                 />
 
-                                <Stack.Screen name="BookAppointment" component={BookAppointment}/>
+                                <Stack.Screen name="BookAppointment" component={BookAppointment} options={{title:"Book Appointment",headerRight:()=>
+                                    <View  style={{flexDirection:'row'}}>
+                                        <AntDesign name="user" size={25} color="white" style={{marginRight:10}}/> 
+                                        <QrIcon {...props}/>
+                                    </View>}}
+                                />
                                                                 
                                 {/* <Stack.Screen name="dummyPatient" component={DummyPatient}/> */}
                             </>

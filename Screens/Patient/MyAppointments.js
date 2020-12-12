@@ -8,8 +8,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from '@react-native-community/async-storage';
 import { Base64 } from '../../Base64';
 import { colors } from '../../extra/colors';
-import Reschedule from './Reschedule';
-export default function Appointments(props) {
+
+export default function MyAppointments(props) {
     // let appointmentList = 
     // [
     //     {id:'1',name:'Mukund Madhav Goyal',condition:'No problem', time:'12:50-13:15', gender:'Male',blood:'A+',address:'Hapur',mobile:'7060207573',age:'19'},
@@ -27,22 +27,19 @@ export default function Appointments(props) {
     },[])
 
     const getPatients = async() => {
-        let doctor = await AsyncStorage.getItem('doctor');
-        doctor = JSON.parse(doctor);
-        let doctorId =  doctor['_id'];
-        doctor = {
-            Doctor_Id : doctorId,
+        let patient = await AsyncStorage.getItem('patient');
+        patient = JSON.parse(patient);
+        let patientId =  patient['_id'];
+        patient = {
+            Patient_Id : patientId,
         }
-        doctor = Base64.encode(JSON.stringify(doctor));
+        patient = Base64.encode(JSON.stringify(patient));
         // let key = Base64.encode('Doctor_Id');
-        fetch('http://192.168.1.11:5000/retrieve/appointments/'+doctor)
+        fetch('http://192.168.1.11:5000/retrieve/appointments/'+patient)
         .then(res => res.json())
         .then((resultJson) => {
-            // console.log(resultJson)
+            console.log(resultJson)
             setAppoint(resultJson.data);
-            if(resultJson.data.length == 0){
-                alert("No Appointments Found");
-            }
             // console.log(JSON.stringify(resultJson.data));
         })
         .catch(err => console.log())
@@ -136,15 +133,14 @@ export default function Appointments(props) {
             keyExtractor={(item,index) => index.toString()}
             renderItem={({item})=>
             <Card style={styles.cardStyle}>
-                {console.log(item)}
-                <TouchableOpacity onPress={()=>props.navigation.navigate('PatientViewTab',{patient:item})}>
+                {/* <TouchableOpacity onPress={()=>props.navigation.navigate('PatientViewTab',{patient:item})}> */}
                     <View style={{flex:1,flexDirection:'row'}}>
                         <View style={{flex:2}}>
                             {item.Gender=="Male"?<Image source={require('../../assets/boyAvatar.jpeg')} style={{height:90,width:90,borderRadius:50}}/>:
                             <Image source={require('../../assets/girlAvatar.jpg')} style={{height:90,width:90,borderRadius:50}}/>}
                         </View>
                         <View style={{flex:5,marginLeft:40}}>
-                            <Text style={{color:'white',fontSize:20}}>{item.Name}</Text>
+                            <Text style={{color:'white',fontSize:20}}>Doctor Name : {item.Doctor_Name}</Text>
                             <View style={{flexDirection:'row',flexWrap:'wrap'}}>
                             <Text style={{color:'white',fontSize:15}}>Condition: {item.Diseases}</Text>
                             </View>
@@ -157,21 +153,21 @@ export default function Appointments(props) {
                         </View>
 
                     </View>
-                </TouchableOpacity>
+                {/* </TouchableOpacity> */}
                 <DateTimePickerModal
                     isVisible={isPickerVisible}
                     mode="datetime"
                     onConfirm={handleConfirm}
                     onCancel={hidePicker}
                 />
-            {(item.Status !== "Approved" && item.Status != "Cancelled") && 
+            {(item.Status !== "Pending Approval" && item.Status !=="Approved" && item.Status != "Cancelled") && 
             (    
                 <View style={{flexDirection:"row",width:"100%",alignSelf:"center"}}>
                     <View style={{flexDirection:'row' ,alignSelf:'flex-start',margin:10,marginRight:0,width:"50%"}}>
-                        <TouchableOpacity onPress={showPicker} style={{flexDirection:"row"}}>
+                        {/* <TouchableOpacity onPress={showPicker} style={{flexDirection:"row"}}>
                             <MaterialIcons name="refresh" size={24} color={colors.contrast} style={{marginRight:5}}/>
                             <Text style={{color:colors.contrast,fontSize:16}}>Reschedule</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
                     <View style={{flexDirection:'row' ,alignSelf:'flex-end',alignContent:"flex-end",width:"50%",margin:10,marginLeft:0,paddingRight:10}}>
                         <TouchableOpacity onPress={() => {confirmAppointment(item['_id'])}} style={{flexDirection:"row",justifyContent:"flex-end"}}>

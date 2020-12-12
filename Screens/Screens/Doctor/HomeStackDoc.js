@@ -5,10 +5,8 @@ import FirstPageDoc from './firstPageDoc';
 import Patients from './patients';
 import Reports from './reports';
 import Appointments from './Appointments';
-import PatientView from './PatientView';
 import PatientViewTab from './PatientViewTab';
-import Reschedule from './Reschedule';
-import ShowReport from './ShowReport';
+
 const homeStackDoc=createStackNavigator();
 
 export default function HomeStackDoc(props) {
@@ -28,11 +26,7 @@ export default function HomeStackDoc(props) {
                 <homeStackDoc.Screen name="Patients" component={Patients} 
                 options={{headerLeft:headerIcon,title:"Patients"}}/>
                 <homeStackDoc.Screen name="PatientViewTab" component={PatientViewTab} 
-                options={{headerLeft:headerIcon,title:'Patient Data'}}/>
-                <homeStackDoc.Screen name="ShowReport" component={ShowReport} 
-                options={{headerLeft:headerIcon,title:'Report'}}/>
-                <homeStackDoc.Screen name='Reschedule' component={Reschedule} 
-                options={{headerLeft:headerIcon,title:'Reschedule'}}/>
+                options={{headerLeft:headerIcon,title:'PatientView'}}/>
        </homeStackDoc.Navigator>
     )
 }

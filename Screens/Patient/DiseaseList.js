@@ -9,7 +9,36 @@ const dataList=[{key:'Gynaecology'},{key:'Coronavirus related'},{key:'Dermatolog
                     
 const numColumns=2
 
-export default class list extends React.Component{
+export default class DiseaseList extends React.Component{
+
+    constructor(props){
+        super(props);
+        this.state = {
+            list: dataList,
+            updatedList : dataList,
+            search:'',
+
+        }
+    }
+
+    searchDisease = (text) => {
+        //passing the inserted text in textinput
+        const newData = this.state.list.filter(function(item) {
+          //applying filter for the inserted text in search bar
+          const disease = item.key ? item.key.toUpperCase() : ''.toUpperCase();
+        //   const brandName = item.Brand_Name ? item.Brand_Name.toUpperCase() : ''.toUpperCase();
+          const textData = text.toUpperCase();
+          return(
+            disease.indexOf(textData) > -1 
+          )
+        });
+        this.setState({
+          //setting the filtered newData on datasource
+          //After setting the data it will automatically re-render the view
+          updatedList: newData,
+          search: text,
+        });
+      }
 
 
     renderItems=({item,index}) => {
@@ -30,11 +59,13 @@ export default class list extends React.Component{
         return(
             <View style={styles.container}>
                 <Title style={[styles.tim,{marginTop:0}]}>Search Health Problems</Title>
-                <Searchbar style={styles.nameInput} placeholder="Eg. General Physician, Coronavirus Related " onChangeText={(name => { this.setState({ name }) })} />
+                <Searchbar style={styles.nameInput} placeholder="Eg. General Physician, Coronavirus Related " 
+                onChangeText={text => this.searchDisease(text)}
+                onClear={text => this.searchDisease('')} />
                 {/* <Caption style={[styles.tim,{marginTop:20}]}>Know Speciality?</Caption> */}
                 <Caption style={{fontSize:15,marginLeft:20,marginTop:10}}>Select from top specialities</Caption>
                 <FlatList 
-                    data={dataList}
+                    data={this.state.updatedList}
                     renderItem={this.renderItems}
                     keyExtractor={(key,index)=>index.toString()}
                     numColumns={numColumns}

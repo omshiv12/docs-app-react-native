@@ -5,7 +5,6 @@ import {useNavigation} from '@react-navigation/native';
 import {Base64} from '../../Base64';
 import { AuthContext } from '../../auth/AuthContext';
 import AsyncStorage from '@react-native-community/async-storage';
-import { colors } from '../../extra/colors';
 
 export default function LoginScreen() {
   const [select,setSelect] = React.useState('');
@@ -22,16 +21,17 @@ export default function LoginScreen() {
           Password: pass,
         };
         data = Base64.encode(JSON.stringify(data));
-        fetch('http://192.168.1.11:5000/login/doctors/'+data)
+        fetch('http://192.168.43.121:5000/login/doctors/'+data)
         .then(result => result.json())
         .then(resultJson => {
           console.log(resultJson);
           if(resultJson.status == "Success"){
+            alert("Login Success");
             let obj;
             resultJson.data.forEach((val) =>{
               obj = val;
             });
-            AsyncStorage.setItem('doctor',JSON.stringify(obj));
+            AsyncStorage.setItem('doctor',obj);
             signIn('doctor');
           }
           else{
@@ -46,16 +46,17 @@ export default function LoginScreen() {
           Password: pass,
         };
         data = Base64.encode(JSON.stringify(data));
-        fetch('http://192.168.1.11:5000/login/patients/'+data)
+        fetch('http://192.168.43.121:5000/login/patients/'+data)
         .then(result => result.json())
         .then(resultJson => {
           console.log(resultJson);
           if(resultJson.status == "Success"){
+            alert("Login Success");
             let obj;
             resultJson.data.forEach((val) =>{
               obj = val;
             });
-            AsyncStorage.setItem('patient',JSON.stringify(obj));
+            AsyncStorage.setItem('patient',obj);
             signIn('patient');
           }
           else{
@@ -113,18 +114,18 @@ export default function LoginScreen() {
             </View>
             <View style={styles.inStyle}>
               <AntDesign name="user" size={30} color="#555" style={{paddingRight:10}} />
-              <TextInput value={username} maxLength={10} keyboardType="phone-pad" onChangeText={handleUsername} style={{fontSize:20,width:'100%'}} placeholder="Mobile Number" placeholderTextColor="#555"/>
+              <TextInput value={username} onChangeText={handleUsername} style={{fontSize:20,width:'100%'}} placeholder="Username" placeholderTextColor="#555"/>
             </View>
             <View style={styles.inStyle}>
               <AntDesign name="lock" size={30} color="#555" style={{paddingRight:10}} />
               <TextInput value={pass} onChangeText={handlePass} secureTextEntry={true} style={{fontSize:20,width:'100%'}} placeholder="Password" placeholderTextColor="#555"/>  
             </View>
             <View style={{justifyContent:'flex-end',flexDirection:'row',marginRight:"5%",marginTop:'3%'}}>
-              <TouchableOpacity onPress={()=>{alert("Forgot Password Pressed")}}><Text style={{color:colors.themeColor}}>Forgot Password?</Text></TouchableOpacity>
+              <TouchableOpacity onPress={()=>{alert("Forgot Password Pressed")}}><Text style={{color:"blue"}}>Forgot Password?</Text></TouchableOpacity>
             </View>
             <TouchableOpacity onPress={()=>{login()}}>
               <View style={styles.button}>
-                <Text style={{alignSelf:'center',width:"100%",textAlign:'center',fontWeight:"bold",fontSize:20,color:"white",marginTop:8,fontWeight:'bold'}}>Log In</Text>
+                <Text style={{alignSelf:'center',width:"100%",textAlign:'center',fontWeight:"bold",fontSize:20,color:"#555",marginTop:8,fontWeight:'bold'}}>Log In</Text>
               </View>
             </TouchableOpacity>
             <View style={{marginTop:"10%",alignSelf:'center'}}>
@@ -142,7 +143,7 @@ export default function LoginScreen() {
                   alert("Please select the categories above to continue.");
                 }
               }} >
-                <Text style={{color:colors.themeColor,fontSize:20}}>
+                <Text style={{color:"blue",fontSize:20}}>
                   Create Account
                 </Text>
               </TouchableOpacity>
@@ -156,12 +157,12 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      backgroundColor:colors.themeColor,
+      backgroundColor:'#59f',
       paddingTop:"5%"
     },
     firstContainer:{
       flex:2,
-      backgroundColor:colors.themeColor,
+      backgroundColor:'#59f',
       marginTop:"10%",
     },
     secondContainer:{
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
     },
     button:{
       marginTop:"10%",
-      backgroundColor:colors.themeDark,
+      backgroundColor:"#58f",
       marginHorizontal:"4%",
       borderRadius:50,
       width:"90%",
@@ -212,9 +213,9 @@ const styles = StyleSheet.create({
       alignItems:"center",
       justifyContent:"center",
       marginHorizontal:0,
-      borderWidth:10,
+      borderWidth:4,
       borderRadius:500,
-      borderColor:colors.grey,
+      borderColor:"#44344F",
       width:158,
       height:155,
       

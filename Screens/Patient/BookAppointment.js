@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet,AppRegistry,View,Text,TextInput,Button,Image,TouchableOpacity,StatusBar,ScrollView,Dimensions} from 'react-native';
+import {StyleSheet,AppRegistry,View,Text,TextInput,Button,Image,TouchableOpacity,StatusBar,ScrollView,Dimensions, Picker} from 'react-native';
 import { Caption, Checkbox, Chip, Subheading, Title } from 'react-native-paper';
 import {
     MaterialCommunityIcons,
@@ -43,6 +43,10 @@ export default class App extends React.Component{
           time:'',
           selectDate:false,
           activeIndex:null,
+          mobile:'',
+          address:'',
+          blood_grp:'',
+          gender:'',
         }
         this.selectDate = this.selectDate.bind(this);
         this.bookAppointment = this.bookAppointment.bind(this)
@@ -54,15 +58,15 @@ export default class App extends React.Component{
         this.getPatient();
         if(this.props.route.params){
             let doctor = this.props.route.params.doctor;
-            console.log(this.props.route.params);
-            this.setState({doctor},()=>{console.log(this.state.doctor)});
+            // console.log(this.props.route.params);
+            this.setState({doctor});
         }
     }
 
     getPatient = async() => {
         const patient =await AsyncStorage.getItem('patient');
         let patientParsed = JSON.parse(patient);
-        this.setState({patient:patientParsed},()=>{console.log(this.state.patient)});
+        this.setState({patient:patientParsed});
         this.setDetails();
     }
 
@@ -73,6 +77,10 @@ export default class App extends React.Component{
             patientId:prevState.patient["_id"],
             doctorName:prevState.doctor.Name,
             doctorId:prevState.doctor['_id'],
+            gender:prevState.patient.Gender,
+            blood_grp:prevState.patient.Blood_Group,
+            mobile:prevState.patient.Mobile,
+            address:prevState.patient.Address,
         })))
     }
 
@@ -81,12 +89,28 @@ export default class App extends React.Component{
         {
             let appoint = {
                 Doctor_Id : this.state.doctorId,
+                Doctor_Name : this.state.doctorName,
                 Patient_Id: this.state.patientId,
                 Name: this.state.name,
                 Age: this.state.age,
                 Diseases : this.state.diseases,
                 Time: this.state.time,
                 Date_Of_Appointment : this.state.date,
+                Status:"Pending Approval",
+                Blood_Group : this.state.blood_grp,
+                Address: this.state.address,
+                Mobile : this.state.mobile,
+                Gender : this.state.gender,
+            }
+
+            let fav = {
+                Doctor_Id : this.state.doctorId,
+                Patient_Id : this.state.patientId,
+                Patient_Name : this.state.name,
+                Age: this.state.age,
+                Mobile:this.state.mobile,
+                Gender : this.state.gender,
+                Favorite: 0,
             }
 
             let share = {
@@ -97,11 +121,12 @@ export default class App extends React.Component{
             }
             share = Base64.encode(JSON.stringify(share));
             appoint = Base64.encode(JSON.stringify(appoint));
-            console.log('http://192.168.1.11:5000/insert/appointments/'+appoint);
+            fav = Base64.encode(JSON.stringify(fav));
+            // console.log('http://192.168.1.11:5000/insert/appointments/'+appoint);
             fetch('http://192.168.1.11:5000/insert/appointments/'+appoint)
             .then(result => result.json())
             .then((resultJson) => {
-                console.log(resultJson);
+                // console.log(resultJson);
                 if(resultJson.status=="Success"){
                     console.log("Appointment Booked");
                     this.props.navigation.navigate('PatientDashboard');
@@ -111,11 +136,23 @@ export default class App extends React.Component{
                 }
             })
             .catch(err => console.log(err))
-            console.log('http://192.168.1.11:5000/insert/sharing/'+share);
+
+            fetch('http://192.168.1.11:5000/insert/favorites/'+fav)
+            .then(res => res.json())
+            .then(resultJson => {
+                if(resultJson.status =="Success"){
+                    console.log("Fav. Set");
+                }
+                else{
+                    console.log("Error Setting Fav.");
+                }
+            })
+            .catch(err=>console.log(err))
+            // console.log('http://192.168.1.11:5000/insert/sharing/'+share);
             fetch('http://192.168.1.11:5000/insert/sharing/'+share)
             .then(result => result.json())
             .then((resultJson) => {
-                console.log(resultJson);
+                // console.log(resultJson);
                 if(resultJson.status=="Success"){
                     alert("Appointment Booked Successfully");
                 }
@@ -134,9 +171,6 @@ export default class App extends React.Component{
         this.setState({selectDate:true});
     }
 
-    onChipSelect = () => {
-        
-    }   
 
     getDate = (event,date)=>
     {       
@@ -193,6 +227,28 @@ export default class App extends React.Component{
                     value={this.state.age}
                     onChangeText={(text)=>{this.setState({age:text})}}
                     style={styles.input}/>
+
+                    <TextInput placeholder="Gender - Male / Female / Other"
+                    value={this.state.gender}
+                    onChangeText={(text)=>{this.setState({gender:text})}}
+                    style={styles.input}/>  
+
+                    <TextInput placeholder="Blood Group"
+                    value={this.state.blood_grp}
+                    onChangeText={(text)=>{this.setState({blood_grp:text})}}
+                    style={styles.input}/>
+
+                    <TextInput placeholder="Address"
+                    value={this.state.address}
+                    onChangeText={(text)=>{this.setState({address:text})}}
+                    style={styles.input}/>
+
+                    <TextInput placeholder="Mobile"
+                    value={this.state.mobile}
+                    onChangeText={(text)=>{this.setState({mobile:text})}}
+                    style={styles.input}/>
+
+
 
                     <TextInput placeholder="Reason for Appointment / Symptoms / Diseases"
                     onChangeText={(text)=>{this.setState({diseases:text})}}
